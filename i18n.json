@@ -1,0 +1,19 @@
+{
+  "locales": [
+    "pt-Br",
+    "en"
+  ],
+  "defaultLocale": "pt-Br",
+  "pages": {
+    "*": [
+      "common",
+      "headerNavLinks",
+      "newsletter",
+      "404",
+      "SEO"
+    ],
+    "/projects": [
+      "projects"
+    ]
+  }
+}
