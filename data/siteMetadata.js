@@ -1,11 +1,11 @@
 const siteMetadata = {
   title: { en: "Jesiel Viana's Blog", 'pt-Br': 'Blog de Jesiel Viana' },
-  author: 'Tails Azimuth',
+  author: 'Jesiel Viana',
   headerTitle: { en: 'Jesiel Viana', 'pt-Br': 'Jesiel Viana' },
   // description: 'A blog created with Next.js and Tailwind.css',
   description: { en: 'blog about web development', 'pt-Br': 'blog sobre desenvolvimento web' },
   language: 'pt-Br',
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
+  siteUrl: 'https://jesielviana.com',
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
@@ -25,12 +25,12 @@ const siteMetadata = {
   newsletter: {
     // supports mailchimp, buttondown, convertkit
     // Please add your .env file and modify it according to your selection
-    provider: 'buttondown',
+    provider: 'mailchimp',
   },
   comment: {
     // Select a provider and use the environment variables associated to it
     // https://vercel.com/docs/environment-variables
-    provider: 'giscus', // supported providers: giscus, utterances, disqus
+    provider: 'disqus', // supported providers: giscus, utterances, disqus
     giscusConfig: {
       // Visit the link below, and follow the steps in the 'configuration' section
       // https://giscus.app/
