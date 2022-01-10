@@ -17,7 +17,8 @@ export default function PostLayout({
   availableLocales,
   children,
 }) {
-  const { date, title } = frontMatter
+  const { date, title, readingTime } = frontMatter
+  const roundedReadingTime = Math.round(readingTime.minutes)
   const { t } = useTranslation()
   const { locale } = useRouter()
 
@@ -44,6 +45,9 @@ export default function PostLayout({
               <div>
                 <PageTitle>{title}</PageTitle>
               </div>
+              <span className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
+                {roundedReadingTime} {roundedReadingTime == 1 ? ' minute ' : ' minutes ' + ' read '}
+              </span>
             </div>
           </header>
           <div
