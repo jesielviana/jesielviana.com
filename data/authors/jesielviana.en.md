@@ -1,7 +1,7 @@
 ---
 name: Jesiel Viana
 avatar: /static/images/avatar.png
-occupation: Professor de computação no IFPI
+occupation: Professor de computação
 company: Instituto Federal do Piauí - IFPI
 email: jesiel@ifpi.edu.br
 twitter: https://twitter.com/jesielviana

@@ -10,14 +10,14 @@ import NewsletterForm from '@/components/NewsletterForm'
 
 const MAX_DISPLAY = 5
 
-export async function getStaticProps ({ locale, defaultLocale, locales }) {
+export async function getStaticProps({ locale, defaultLocale, locales }) {
   const otherLocale = locale !== defaultLocale ? locale : ''
   const posts = await getAllFilesFrontMatter('blog', otherLocale)
 
   return { props: { posts, locale, availableLocales: locales } }
 }
 
-export default function Home ({ posts, locale, availableLocales }) {
+export default function Home({ posts, locale, availableLocales }) {
   const { t } = useTranslation()
 
   return (
@@ -41,9 +41,9 @@ export default function Home ({ posts, locale, availableLocales }) {
             {' about them. Have a good read!'}
           </h2>
         </div>
-        <div className="flex items-center justify-center mx-2 my-12 w-96">
+        {/* <div className="flex items-center justify-center mx-2 my-12 w-96">
           <NewsletterForm title={t('newsletter:title')} />
-        </div>
+        </div> */}
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="pt-6 pb-8 space-y-2 md:space-y-5">
