@@ -3,7 +3,7 @@ const siteMetadata = {
   author: 'Tails Azimuth',
   headerTitle: { en: 'Jesiel Viana', 'pt-Br': 'Jesiel Viana' },
   // description: 'A blog created with Next.js and Tailwind.css',
-  description: { en: 'en description', 'pt-Br': 'Descrição' },
+  description: { en: 'blog about web development', 'pt-Br': 'blog sobre desenvolvimento web' },
   language: 'pt-Br',
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',

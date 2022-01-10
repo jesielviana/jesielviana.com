@@ -1,6 +1,9 @@
 {
-  "greeting": "Latest",
-  "latest": "Latest articles",
+  "greeting": "Hi, I'm Jesiel Viana.",
+  "summary": "Software engineer, MSc in software engineering and professor of computer science at IFPI. Here I write about the web, teaching, career, etc. I'm also writing a ",
+  "webdevebook": "free ebook about web development",
+  "goodRead": "Have a good read!",
+  "latest": "Latest posts",
   "more": "Read more",
   "all": "All Posts",
   "search": "Search articles",

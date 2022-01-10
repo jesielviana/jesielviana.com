@@ -1,6 +1,9 @@
 {
-  "greeting": "Les plus récents",
-  "latest": "Últimos artigos",
+  "greeting": "Olá, sou Jesiel Viana.",
+  "summary": "Desenvolvedor web, mestre em engenharia de software e professor de computação no IFPI. Aqui escrevo sobre web, ensino, carreira, etc. Também estou escrevendo um ",
+  "webdevebook": "ebook gratuito sobre desenvolvimento web",
+  "goodRead": "Boa leitura!",
+  "latest": "Últimos posts",
   "more": "Leia mais",
   "all": "Todos artigos",
   "search": "Pesquisar",

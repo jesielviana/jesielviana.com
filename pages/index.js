@@ -7,6 +7,7 @@ import formatDate from '@/lib/utils/formatDate'
 import useTranslation from 'next-translate/useTranslation'
 
 import NewsletterForm from '@/components/NewsletterForm'
+import { BlogNewsletterForm } from '@/components/NewsletterForm'
 
 const MAX_DISPLAY = 5
 
@@ -29,30 +30,24 @@ export default function Home({ posts, locale, availableLocales }) {
       />
       <div className="flex flex-col items-center my-6 xl:flex-row gap-x-12 xl:mb-12">
         <div className="pt-6">
-          <h1 className="pb-6 text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Hi, I’m Timothy Lin
+          <h1 className="pb-6 text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-4xl md:leading-14">
+            {t('common:greeting')}
           </h1>
           <h2 className="text-lg prose text-gray-600 dark:text-gray-400">
-            {`Welcome to my blog - ${siteMetadata.description}. I am the co-founder of Cylynx, a data
-            scientist by profession and economist by training. In my free time, I like developing `}
-            <Link href="/projects">side projects</Link>
-            {' and '}
-            <Link href="/blog">blogging</Link>
-            {' about them. Have a good read!'}
+            {t('common:summary')}
+            <Link href="https://webdev.jesielviana.com">{t('common:webdevebook')}</Link>
+            {'. ' + t('common:goodRead')}
           </h2>
         </div>
-        {/* <div className="flex items-center justify-center mx-2 my-12 w-96">
-          <NewsletterForm title={t('newsletter:title')} />
-        </div> */}
+        <div className="newsletter-head flex items-center justify-center mx-2 my-12 w-96">
+          <BlogNewsletterForm title={t('newsletter:title')} />
+        </div>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="pt-6 pb-8 space-y-2 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        <div className="pt-6 pb-4 space-y-2 md:space-y-5">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-4xl md:leading-14">
             {t('common:latest')}
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description[locale]}
-          </p>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
