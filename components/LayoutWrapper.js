@@ -29,7 +29,7 @@ const LayoutWrapper = ({ children }) => {
             <Link href="/" aria-label="Tailwind CSS Blog">
               <div className="flex items-center justify-between">
                 <div className="mr-3 logo">
-                  <Logo width="60" height="60" />
+                  <Logo width="50" height="50" />
                 </div>
                 {typeof siteMetadata.headerTitle[locale] === 'string' ? (
                   <div className="hidden h-6 text-2xl font-semibold sm:block">
@@ -47,7 +47,7 @@ const LayoutWrapper = ({ children }) => {
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="p-1 font-medium text-gray-900 sm:p-4 dark:text-gray-100"
+                  className="p-1 text-gray-900 sm:p-4 dark:text-gray-100"
                 >
                   {t(`headerNavLinks:${link.title.toLowerCase()}`)}
                 </Link>

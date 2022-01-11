@@ -40,12 +40,12 @@ export default function Home({ posts, locale, availableLocales }) {
           </h2>
         </div>
         <div className="newsletter-head flex items-center justify-center mx-2 my-12 w-96">
-          <BlogNewsletterForm title={t('newsletter:title')} />
+          {/* <BlogNewsletterForm title={t('newsletter:title')} /> */}
         </div>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="pt-6 pb-4 space-y-2 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-4xl md:leading-14">
+          <h1 className="text-3xl font-medium leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-4xl md:leading-14">
             {t('common:latest')}
           </h1>
         </div>
@@ -63,8 +63,8 @@ export default function Home({ posts, locale, availableLocales }) {
                         <time dateTime={date}>{formatDate(date, locale)}</time>
                       </dd>
                     </dl>
-                    <div className="space-y-5 xl:col-span-3">
-                      <div className="space-y-6">
+                    <div className="space-y-3 xl:col-span-3">
+                      <div className="space-y-3">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
                             <Link
@@ -114,7 +114,7 @@ export default function Home({ posts, locale, availableLocales }) {
       )}
       {siteMetadata.newsletter.provider !== '' && (
         <div className="flex items-center justify-center pt-4">
-          <NewsletterForm title={t('newsletter:title')} />
+          {/* <NewsletterForm title={t('newsletter:title')} /> */}
         </div>
       )}
     </>
