@@ -1,0 +1,433 @@
+---
+title: '9 boas práticas para construção de API Node.js'
+date: 2020-04-15T15:32:14Z
+tags: ['nodejs', 'api', 'arquitetura']
+draft: false
+summary: 'A utilização de padrões e boas práticas no desenvolvimento de software evitam a duplicidade de códigos, facilita a alteração e evolução do software, aumenta a legibilidade do código,  etc.'
+images: ['/static/images/posts/banner-nodejs.png']
+authors: ['default']
+---
+
+### Introdução
+
+[Node.js](https://nodejs.org/pt-br/) é uma ótima ferramenta para construção APIs REST, sendo bastante utilizada no mundo todo, desde as grandes multinacionais até startups. Assim, como qualquer framework e plataformas de desenvolvimento de software existem um conjunto de recomendações e padrões a serem utilizados, então o objetivo deste artigo é descrever um conjunto de **boas práticas para construção de APIs Node.js com Express**.
+
+> A utilização de padrões e boas práticas no desenvolvimento de software evitam a duplicidade de códigos, facilita a alteração e evolução do software, aumenta a legibilidade do código, etc.
+
+O conjunto de boas práticas que descrevo abaixo é resultado da minha experiência em construir aplicações Node.js, de vários anos ensinando desenvolvimento Web, além de uma extensa pesquisa e leitura de artigos, livros e códigos de vários projetos.
+
+> <a href="https://github.com/jesielviana/nodejs-express-sequelize" target="_blank">
+>   o código completo de todos os exemplos de boas práticas estão neste repositório do Github
+> </a>
+> .
+
+### 1 - Estrutura de diretórios
+
+Em aplicações Node.js geralmente são utilizados dois tipos de estruturação de diretórios: divisão por funcionalidade e divisão por responsabilidade.
+Na divisão por funcionalidade todos os arquivos de uma determinadas funcionalidade são agrupados em um único diretório, conforme o exemplo abaixo:
+
+```
+src/
+  ├── courses/
+        ├── courses.service.js
+        ├── course.model.js
+        ├── courses.routes.js
+  ├── students/
+        ├── students.service.js
+        ├── student.model.js
+        ├── students.routes.js
+  ├── app.js
+```
+
+Já na organização por responsabilidade os arquivos são agrupados em diretórios de acordo com a sua responsabilidade, conforme o exemplo abaixo:
+
+```
+src/
+  ├── services/
+        ├── courses.js
+        ├── students.js
+  ├── model/
+        ├── course.js
+        ├── student.js
+  ├── routes/
+        ├── index.js
+        ├── courses.js
+        ├── students.js
+  ├── app.js
+```
+
+Entre essas duas abordagens eu prefiro a estruturação por responsabilidade, seguindo minhas origens no mundo Java, onde essa forma de organização é considerada o padrão. No entanto, não acredito que seja a opção correta, fica a critério da equipe de cada projeto discutir e escolher aquela achar mais pertinente.
+
+Baseado na organização por responsabilidade, costumo organizar meus projetos da seguinte forma:
+
+```
+├── server.js         arquivo de inicialização da aplicação/servidor
+src/
+  ├── app.js         arquivo de configuração da aplicação express
+  ├── api/           camada de rotas da API
+  ├── config/        arquivos de configuração
+  ├── services/      camada de serviços
+  ├── models/        camada dos modelos	de dados
+test/
+  ├── unit/          testes unitários
+  ├── integration/   testes de integração da API
+├── package.json         arquivo de configuração do projeto
+├── ...         demais arquivos de configurações (.gitignore, jest.config, .sequelizerc, etc)
+```
+
+**Obs:** recomendo a criação do arquivo `server.js` para inicialização do servidor http separado do arquivos de definição e configuração do express, geralmente nomeado de `app.js` . Isso facilita demais a realização dos testes de integração, pois permite testar a API usando somente o `app.js` , sem realizar chamadas de inicialização do servidor.
+
+### 2 - Arquitetura em Camadas
+
+Em projetos Node.js podemos fazer a divisão em três (3) camadas, baseada no Princípio da Separação de Conceitos (<a href="https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html" target="_blank">Dijkstra</a>). As três camadas são API/Routes, Services e Models, conforme a figura abaixo.
+
+![Arquitetura em camada Node.js](/static/images/posts/nodejs-layers.png)
+
+- `API/Routes` - camada responsável pela definição dos _endpoints_ da _API_ e tratamento das requisições e respostas da aplicação.
+- `Services` - camada responsável pelas regras de negócios e por fazer a integração entre a camada de dados e a camada de API/Rotas.
+- `Models` - camada responsável pela modelagem e acesso aos dados da aplicação.
+
+### 3 - Separe as regras de negócios do tratamento de requisições e respostas
+
+É comum encontrarmos várias aplicações que misturam o código de tratamento de requisições e respostas com as regras de negócios da aplicação. As vezes o código de regras de negócios e acesso a dados ficam juntos dentro da camada de `routes` ou `controllers`, como no exemplo abaixo (**Não Faça Isso!**):
+
+```js:src/routes/courses.js
+// arquivo de rotas
+router.post('/courses', async (req, res) => {
+  try {
+    const { name, ch } = req.body
+        const existingCourse = await courseModel.findAll({
+      where: {
+        name: name
+      }
+    })
+    if (existingCourse.length > 0) {
+      throw new Error('Course already registered')
+    }
+    await courseModel.create({ name, ch })
+    res.status(201).json({ message: 'Course created!' })
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+```
+
+Em outros casos os objetos de requisição e resposta, geralmente nomeados de `req` e `res` são passados da camada de `routes` para a camada de `services`, conforme podemos ver no exemplo abaixo (**Também Não Faça Isso!**):
+
+```js:src/routes/courses.js
+// arquivo de tratamento de rotas na camada de routes
+router.post('/courses', (req, res) => coursesService.create(req, res));
+```
+
+```js:src/services/courses.js
+//  arquivo de serviços
+ create(req, res) {
+  try {
+    const { name, ch } = req.body
+        const existingCourse = await courseModel.findAll({
+      where: {
+        name: name
+      }
+    })
+    if (existingCourse.length > 0) {
+      throw new Error('Course already registered')
+    }
+    await courseModel.create({ name, ch })
+    res.status(201).json({ message: 'Course created!' })
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+```
+
+Nos dois exemplos acima, o código de tratamento de rotas, que inclui receber os dados do corpo da requisição, capturar parâmetros de URL, validar dados da requisição, lidar com códigos de status do HTTP e retornar as respostas da requisição estão misturados com o código de validação de regras de negócios e código de acesso e manipulação dos dados.
+
+Com isso a função/classe assume muitas responsabilidades, ferindo as boas práticas de coesão e separação de conceitos. Isso impacta diretamente na escrita de testes unitários dos `services` em que teremos que lidar com _mocks_ complexos para os objetos `req` e `res` do express.
+
+Diante dessa situação, a minha recomendação é isolar o código de tratamento de requisições e respostas na camada de `routes` e o código de regras de negócios e acesso a dados na camada de `services`. Segue um exemplo de boa prática baseado nos conceitos de separação das responsabilidades e coesão:
+
+```js
+// src/routes/courses.js -> arquivo de tratamento de rotas na camada de routes
+router.post('/', async (req, res) => {
+  try {
+    const { name, ch } = req.body
+    await courseService.create({ name, ch })
+    res.status(201).json({ name, ch })
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+})
+```
+
+```js:src/services/courses.js
+// arquivo de serviços
+async create (courseDTO) {
+  try {
+    await this.verifyIfCourseNameIsRegistered(courseDTO.name)
+    await courseModel.create(courseDTO)
+  } catch (err) {
+    throw new Error(err.message)
+  }
+}
+
+async verifyIfCourseNameIsRegistered (courseName) {
+  const existingCourse = await courseModel.findAll({
+    where: {
+      name: courseName
+    }
+  })
+  if (existingCourse.length > 0) {
+    throw new Error('Course already registered')
+  }
+}
+```
+
+Com essa separação mantemos as funções e arquivos/classes coesas, com responsabilidades únicas, além disso torna a criação dos testes unitários mais simples, sem a necessidade de _mock_ dos objetos de `req` e `res`.
+
+Para todos os exemplos utilizados neste item foi utilizado um model do sequelize (listado abaixo), que representava o objeto `courseModel`.
+
+```js:models/course.js
+  const CourseModel = sequelize.define('Course', {
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    ch: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    }
+  })
+```
+
+> <a href="https://github.com/jesielviana/nodejs-express-sequelize" target="_blank">
+>   o código completo de todos os exemplos de boas práticas estão neste repositório do Github
+> </a>
+> .
+
+Resumindo...
+
+- Separe o código dos `routes` do express da camada de `services`
+- Tudo relacionado a url, código de status, cabeçalhos e métodos do HTTP devem ser tratados na camada/arquivo de `routes`
+- Não passe os objetos `req` e `res` para a camada/arquivo de `services`
+- A camada de `services` deve lidar exclusiavamente com as regras e negócios e integração com os `models`.
+
+### 4 - Use os métodos HTTP de forma semântica e substantivo para identificação de rotas
+
+Para cada tipo de operação que podemos realizar por meio de uma API há um método HTTP adequado, com valor semântico. USE-OS! Para as quatro operações básicas de um CRUD, criar, consultar, alterar e remover devemos utilizar os métodos POST, GET, PUT/PATCH e DELETE respectivamente, já que cada um desse métodos são semanticamente correspondentes a cada uma dessas operações. Por exemplo:
+
+- `POST /courses` para criar um novo curso,
+- `GET /courses` para consultar todos os cursos,
+- `GET /courses/:id` para consultar um curso específico,
+- `PATCH /courses/:id` or `PUT /courses/:id` para alterar um curso já cadastrado,
+- `DELETE /courses/:id` para remover um curso já cadastrado.
+
+> OBS: PUT e PATCH são usados para alteração de dados. PUT é semanticamente indicado para alteração da entidade completa, ou seja, sobrescrita de todos os dados da entidade/recurso a ser alterado. Já o PATCH para uma atualização parcial, quando se deseja sobrescrever um atribudo específico da entidade/recurso
+> [https://tools.ietf.org/html/rfc5789](PATCH)
+> [https://tools.ietf.org/html/rfc2616#section-9.6](PUT).
+
+Como prática recomendada, suas rotas de API (**endpoints**) devem utilizar substantivos no plural como identificadores dos recursos, como no exemplo acima, usamos o identicador `courses` como rota (**endpoints**) para manipulação de cursos.
+
+### 5 - Use os códigos de status do HTTP de forma correta
+
+Olha só essa "pegadinha" relatada nesse tweet abaixo:
+
+<blockquote class="twitter-tweet"><p lang="pt" dir="ltr">Submeto um formulário que perdi um tempo preenchendo, ele dá um erro. Vou olhar o request (lógico), via xhr, ele dá status 200. No json de retorno tem um atributo `{erro: true}`. 🤦‍♂️<br/>A empresa é do mercado financeiro, e é grande.<br/>Não me surpreende.<br/>Somos amadores. <a href="https://t.co/7VLEspvThv">pic.twitter.com/7VLEspvThv</a></p>&mdash; Giovanni Bassi 🇧🇷 (@giovannibassi) <a href="https://twitter.com/giovannibassi/status/1362871241128960004?ref_src=twsrc%5Etfw">February 19, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+O relatado no tweet acima não é algo raro, uma vez ou outra nos deparamos com isso em APIs e páginas Web. No entanto, é algo que devemos evitar. Isso parece até uma pegadinha, retorna o status code 200, que indica sucesso na requisição, e no corpo da resposta vem um uma mensagem de erro ou uma flag (true ou false) indicando que ocorreu algum erro...resumindo: Parece sucesso, mas é erro.
+
+Para evitar confusões e más práticas retornando códigos de status do HTTP que não condiz com a realidade da requisição, é bom conhecermos os principais códigos, seus significados e quando e como devemos usá-los. Veja a lista abaixo com os principais códigos de status do HTTP e seus significados:
+
+- **2xx**, códigos que indicam sucesso da requisição, os dois mais utilizados são:
+  - `200 Ok` - Indica sucesso na requisição (pra qualquer tipo de requisição).
+  - `201 Ok` - Indica sucesso para requisições de criação de recurso (específica para POST).
+- **3xx**, códigos que indicam que o recurso foi movido (pouco utilizado),
+- **4xx**, códigos que indicam erros causados pelo cliente
+  - `400 Bad Request` – indica que algum dado enviado na requisição está incorreto.
+  - `401 Unauthorized` – indica que o usuário/cliente não tem autorização para acessar determinado recurso, geralmente é provocado pela falta de autenticação.
+  - `403 Forbidden` – indica que o usuário é conhecido (está autenticado), mas não tem permissão para acessar aquele recurso.
+  - `404 Not Found` – indica que o recurso solicitado não existe.
+- **5xx**, indica alguma erro inesperado no lado do servidor, é recomendado tratar este tipo de erro para não ser exibido diretamente para o usuário/cliente.
+
+### 6 - Crie testes de integração para todas as rotas de sua API
+
+Teste automatizado criado pelos desenvolvedores é algum essencial no desenvolvimento de software. Esses testes são dividos em três catagorias: Teste de Unidade, Teste de Ingegração e Teste de Inteface (end-to-end).
+
+Para o desenvolviemtno de APIs é recomendado a construção de testes de unidade e testes de integração, sendo este o mais completo.
+
+O teste de integração em APIs tem características do testes de caixa preta, que é a forma de testar uma funcionalidade de um aplicativo sem o conhecimento de suas estruturas internas ou funcionamento. Portanto, na criação dos testes de integração o sistema/API é testado como um todo sem a criação de mocks. Nenhum mock é criado!
+
+No ambiente Node.js com Express são bastantes utilizados o Jest e Supertest para a criação e execução de testes de integração. O código abaixo apresenta um exemplo de teste de integração para a criação de curso.
+
+```js:test/api/curso.test.js
+const request = require('supertest')
+const config = require('../../../src/config')
+const app = require('../../../src/app')
+const { sequelize } = require('../../../src/models')
+
+const API_COURSES = `${config.API_BASE}/courses`
+
+const DEFAULT_COURSE = {
+  name: 'Curso 1',
+  ch: 1500
+}
+
+beforeAll(async () => {
+  await sequelize.sync({ force: true }) // conecta com o banco de testes
+  await request(app).post(API_COURSES).send(DEFAULT_COURSE) // insere um curso no banco
+})
+
+afterAll(async () => {
+  await sequelize.close() // fecha a conexão com o banco
+})
+
+describe('Testando a rota de curso', () => {
+  test('Deve adicionar um novo curso com sucesso!', async () => {
+    const newCourse = {
+      name: 'Curso 2',
+      ch: 3020
+    }
+    const response = await request(app).post(API_COURSES).send(newCourse)
+    expect(response.statusCode).toBe(201)
+  })
+})
+
+```
+
+No exemplo acima é realizado um teste completo de criação de um novo curso, desde a requisição HTTP na rota de curso passando o dados do novo curso até a inserção no banco de dados e verificação da resposta HTTP. Exemplo completo está neste [repositório do Github](https://github.com/jesielviana/nodejs-express-sequelize).
+
+### 7 - Cuide bem da segurança de sua API
+
+Quando falamos de segurança na Web o uso de HTTPS (TLS/SSL) é fundamental e obrigatório. USE SEMPRE HTTPS!
+
+Quando for utilizar módulos/depedências do NPM verifique a origem, atualizações, possíveis falhas de segurança, etc. Para isso, recomendo a utilização do [Snyk Open Source Security Management](https://snyk.io/product/open-source-security-management/), uma ferramenta que conecta com seu repositório do Github e verifica posséveis brechas de seguranças de todas as dependências de sua aplicação Node.js.
+
+Em aplicações com Express.js, use o [Helmet](https://helmetjs.github.io/). Helmet é uma biblioteca para Express.js que agrega vários middlewares, responsáveis por setar alguns headers nas mensagens HTTP, tornando sua aplicação mais segura.
+
+### 8 - Crie arquivos de configuração para cada ambiente
+
+Crie arquivos de configurações, com dados de banco de dados, endereços de APIs externas e etc, para cada ambiente (development, test, production) e carregue suas informações de acordo com cada ambiente de forma automatizada. Segue um exemplo:
+
+Arquivo index.js, que carrega as configurações de acordo com o ambiente.
+
+```js:config/index.js
+const config = require(`./env/${process.env.NODE_ENV || 'development'}.js`)
+module.exports = config
+```
+
+Arquivos de cada ambiente
+
+```
+src/
+  ├── config/
+      ├── development.js
+      ├── test.js
+      ├── production.js
+```
+
+Dentro de cada arquivo (development, test, production) são colocadas as informações de configuração específicas daquele ambiente. Pode-se usar também os arquivos `.env` para cada ambiente ao invés de arquivos `js` como no exemplo acima.
+
+### 9 - Utilize Integração e Entrega Contínua
+
+A Integração Contínua - [Continuous Integration (CI)](https://aws.amazon.com/pt/devops/continuous-integration) é uma prática de desenvolvimento de software em que os desenvolvedores, com frequência, juntam suas alterações de código em um repositório central e executam testes automatizados.
+
+A Entrega Contínua - [Continuous Delivery (CD)](https://www.atlassian.com/br/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment) é uma extensão da integração contínua, uma vez que implanta automaticamente todas as alterações de código em um ambiente de teste e / ou produção após o estágio de construção.
+
+É importante destacar que para a utilização de Integração e Entrega Contínua é essencial que sua aplicação use e abuse de testes automatizados, testes unitários e principalmente testes de integração.
+
+A configuração e utilização dos recursos de Integração e Entrega Contínua tem sido bastante simples em projetos armazenados no Github e Gitlab.
+Segue um exemplo de arquivos de configuração para o Github Actions:
+
+```yaml
+name: Node.js CI and DI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: school_test
+          POSTGRES_PORT: 5432
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+        env:
+          DATABASE_HOST: localhost
+          DATABASE_PORT: 5432
+          DATABASE: school_test
+          DATABASE_USERNAME: test
+          DATABASE_PASSWORD: test
+          # DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: 'app-name' #Must be unique in Heroku
+          heroku_email: 'email-user-heroku@email.com'
+```
+
+O arquivo acima está configurado para executar os seguintes passos em sequência sempre que houver um `push` ou `pull request` no branch `main` do projeto:
+
+1. Usa uma máquina com Ubuntu;
+1. Instala o Node.js 14.x;
+1. Instala e configura uma instância do banco de dados Postgres;
+1. Gera a build o projeto;
+1. Executa os testes;
+1. Faz o deploy (implantação) do projeto no Heroku.
+
+OBS: Caso algum dos passos falhe o fluxo é interrompido e os próximos passos não são executados.
+
+**_E aí quais dessas práticas você já usa? quais são novas pra você?
+Comente, sugira, corrija!!!_**
+
+O código completo de todos os exemplos de boas práticas estão neste [repositório do Github](https://github.com/jesielviana/nodejs-express-sequelize).
+
+> E você gostou das dicas? Quais dessas boas práticas você já conhecia? Quais são as boas práticas que você usa e recomanda? Deixe nos seus comentários ou no [Twitter](htts://twitter.com/jesielviana)
+
+Veja meu curso de criação de aplicações Web, API com Node.js, Express, Jest e Postgres; e front-end integrado com API usando apenas Vanilla JS.
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/videoseries?list=PLAxN8g6Knm0camfON299B-vl31IYQhA8Q"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+
+**Demais Referências Utilizadas**
+
+- [10 Best Practices for Writing Node.js REST APIs | @RisingStack](https://blog.risingstack.com/10-best-practices-for-writing-node-js-rest-apis/)
+- [Best practices for REST API design - Stack Overflow Blog](https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/)
+- [Bulletproof node.js project architecture 🛡️ - DEV Community](https://dev.to/santypk4/bulletproof-node-js-project-architecture-4epf)
+- [GitHub - goldbergyoni/nodebestpractices: The Node.js best practices list (March 2021)](https://github.com/goldbergyoni/nodebestpractices#1-project-structure-practices)

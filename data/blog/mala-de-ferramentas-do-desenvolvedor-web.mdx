@@ -1,0 +1,172 @@
+---
+title: 'O que deve ter na mala de ferramentas do desenvolvedor web?'
+date: 2020-06-02T15:32:14Z
+tags: ['dev', 'ferramentas']
+draft: false
+summary: 'Principais ferramentas do desenvolvedor web.'
+images: ['/static/images/posts/banner-tools.png']
+authors: ['default']
+---
+
+### Introdução
+
+Em qualquer área atuação sempre há um conjunto de ferramentas que são essenciais para auxiliar o profissional para realização do seu trabalho. No desenvolvimento de software para Web não é diferente, para a construção de uma página Web ou uma API o(a) desenvolvedor(a) precisa utilizar um conjunto de ferramentas físicas (hardware) e virtuais (softwares).
+
+Diante disso, o objetivo deste artigo é descrever um conjunto de **ferramentas** virtuais (softwares, linguagens de programação, etc) que devem compor a “mala de ferramentas” do(a) desenvolvedor(a) Web, ou seja, são ferramentas fundamentais para a execução das atividades de desenvolvimento Web, o conhecimento e domínio dessas ferramentas impactam na produtividade e qualidade do trabalho do(a) desenvolvedor(a).
+Importante destacar que o foco do artigo é descrever o tipo/categoria da ferramenta ao invés de um software específico, claro que para cada categoria de ferramenta descrito eu citarei alguns softwares específicos, priorizando os _open-source_.
+
+O conteúdo deste post também está disponível em vídeo,
+onde comento com mais detalhes sobre as ferramentas que todo desenvolvedor Web deve conhecer. Veja o vídeo abaixo:
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/omAsTUokOw0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+
+> **_A ordem de escrita não necessariamente é a ordem que você deve estudar/aprender_**
+> A listagem das ferramentas foi organizada de acordo com cada tópico. **No final do artigo descrevo minha sugestão de por onde começar a estudar Web.**
+
+### Ferramentas comuns para a mala do desenvolvedor front-end e/ou back-end
+
+** 1. Editor de código ou/e IDE (Integrated Development Environment)**
+
+**Editor de código** ou **IDE** é uma ferramenta essencial para a escrita de código e desenvolvimento de software, conhecer os atalhos e funcionalidades disponíveis é importante para aumento da produtividade e resolução de problemas por meio de ‘debug’ e recursos que auxiliam o desenvolvedor durante o processo de escrita e sincronização de código e implantação do software.
+A escolha do editor pode variar de acordo com a linguagem de programação a ser utilizada. Atualmente um dos editores mais utilizado no mundo dev é o [Visual Studio Code (VS Code)](https://code.visualstudio.com/), que é open-source desenvolvido pela Microsoft. Eu particularmente uso o VS Code como editor principal e as vezes também uso [Sublime Text](https://www.sublimetext.com/), que é muito rápido.
+
+Abaixo lista mais alguns editores bastante utilizados no desenvolvimento Web:
+
+- [Eclipse](https://www.eclipse.org/downloads/) - open-source, grátis, bastante utilizada no mundo Java
+- [Atom](https://atom.io/) - open-source, grátis, utilizada para codificação em HTML, CSS, Javascript
+- [Sublime Text](https://www.sublimetext.com/) - proprietário, versão grátis e versão paga, utilizada para codificação em HTML, CSS, Javascript
+- [IntelliJ](https://www.jetbrains.com/idea/) - Proprietária, versão grátis e versão paga, indicada para codificação Java
+- [PyCharm](https://www.jetbrains.com/pycharm/) - Proprietário, versão grátis e versão paga, indicada para codificação Python
+- [WebStorm](https://www.jetbrains.com/webstorm/) - Proprietário, versão grátis e versão paga, utilizada para codificação em HTML, CSS, Javascript
+- [PHPStorm](https://www.jetbrains.com/phpstorm/) - Proprietário, versão grátis e versão paga, indicada para codificação PHP
+- [VS Code](https://code.visualstudio.com/) - open-source, totalmente gratuito, um dos editores de código mais utilizado atualmente, com suporte a praticamente todas as linguagens de programação.
+
+** 2. Git**
+
+É um sistema open-source de controle de versão, sendo o mais utilizado pelos desenvolvedores atualmente. Foi desenvolvido em 2005 por Linus Torvalds, o famoso criador do kernel do sistema operacional Linux [1](https://www.atlassian.com/br/git/tutorials/what-is-git).
+Git é utilizado para integrar as modificações de diversos colaboradores em um única base de código, fazendo o controle de modificações e conflitos. Além disso, cria todo histórico de alterações no código do projeto, permitindo facilmente voltar para qualquer ponto para saber como o código estava naquele momento [Livro sobre Git](https://git-scm.com/book/pt-br/v2)
+
+> Conhecimento de ferramentas de Git e domínio dos principais comandos é uma habilidade básica essencial para qualquer desenvolvedor de software. Todo projeto profissional de desenvolvimento de software utiliza alguma ferramenta de controle de versão, na maioria é Git. Aprender Git não é uma opção, é uma obrigação!
+
+Atualmente existem várias plataformas online baseadas em Git gratuitas, tais como:
+
+- [GitHub](https://github.com/) - proprietária da Microsoft , senda a plataforma mais utilizada para projetos open-source,
+- [Gitlab](https://about.gitlab.com/) - open-source, pode ser utilizada em projetos open-source e projetos privadas de forma gratuita
+- [Bitbucket](https://bitbucket.org/) - proprietária da Atlassian, possui ótimas integrações com as outras ferramentas da empresa, tais como Jira e Trello.
+
+Todas essas ferramentas citadas acima são plataformas de hospedagem de código (repositórios Git) para controle de versão e colaboração. Ele permite que você e outras pessoas trabalhem juntos em projetos de qualquer lugar. Além de servir como hospedagem, elas possui muitas integrações com serviços que auxiliam no deploy da aplicação através de integração contínua.
+
+** 3. Servidor HTTP**
+
+Para a disponibilização online de qualquer aplicação Web é necessário a utilização de um servidor HTTP, que é o responsável por receber as requisições HTTP e prover as respostas de acordo com cada solicitação. Quando vamos colocar uma aplicação online utilizando uma plataforma em nuvem, como Netlify, Heroku, etc, o servidor se torna transparente para o desenvolvedor, no entanto, quando vamos testar uma aplicação em nossa máquina (localhost) precisamos de um servidor HTTP ou quando vamos colocar online em uma nuvem que não venha pré configurada (ex. Quando você aluga uma máquina na AWS, Digital Ocean, etc).
+
+Quando utilizamos alguns desses frameworks SPAs (descritos na seção de front-end) eles já vem configurado com um servidor HTTP embutido para testes em _localhost_, porém não devem serem usados em produção.
+
+Entre os servidor HTTP mais utilizados, estão:
+
+- [Node.js](https://nodejs.org/pt-br/) - plataforma completa (incluindo servidor HTTP) para desenvolvimento de aplicações Back-end utilizando JS
+- [Apache HTTP Server](https://httpd.apache.org/) - é um servidor de código aberto mantido pela Apache Software Foundation, e alimenta cerca de 46% de todos os sites hospedados na internet [[Hostinger](https://www.hostinger.com.br/tutoriais/o-que-e-apache)].
+- [NGINX](https://www.nginx.com/) - é um servidor web de código aberto. Além do servidor HTTP, ele também serve como proxy reverso, balanceador de carga HTTP, etc. É um servidor leve de alta performance e de fácil configuração.
+
+** 4. Comunicação**
+
+A comunicação é um dos fatores essenciais para o sucesso do projeto de desenvolvimento de software e com alta do trabalho remoto, onde integrantes de um mesmo projeto atuam de cidades, estados e países diferentes, é fundamental o uso de ferramentas específicas para a comunicação, tais como:
+
+- [Slack](https://slack.com/intl/pt-br/) - proprietária, versão grátis (bem limitada) e paga, possibilita a comunicação síncrona e assíncrona, em grupo e individual entre os membros de um projetos. Além de integrar com diversos serviços e aplicativos em um único lugar .
+- [Rocket.chat](rocket.chat) - ferramenta brasileira e open-source, basicamente tem os mesmos recursos que o Slack.
+- [Discord](https://discord.com) - é um aplicativo de voz sobre IP proprietário e gratuito, projetado inicialmente para comunidades de jogos. Atualmente é bastante utilizado para comunicação em eventos e em equipes distribuídas de desenvolvimento de software.
+- [Zoom](https://zoom.us/) - plataforma para comunicação via vídeo (videoconferência) proprietária paga que também pode ser usada de forma gratuita com algumas limitações.
+- [Jitsi Meet](https://meet.jit.si/) - uma opção ao zoom, open-source, segura e totalmente gratuita.
+
+### Ferramentas para mala do desenvolvedor front-end
+
+** 5. Prototipação e design**
+
+Geralmente o processo de construção de um bom design de interface inicia pela prototipação. O uso de ferramentas que possibilita a construção de protótipos de alta fidelidade, navegáveis e bem similar ao mundo real é um fator importante para produtividade e validação do design. Nesse sentido eu listo abaixo algumas ferramentas para a construção de protótipos de alta fidelidade e navegáveis.
+
+- [Figma](https://www.figma.com/) - um editor gráfico colaborativo para construção de protótipos. É uma ferramenta proprietária, com versão grátis e versões pagas. Possui verão web e versões desktop.
+- [Adobe XD](https://www.adobe.com/br/products/xd/features.html) - tem basicamente as mesmas características do Figma
+
+** 6. HTML e CSS e Javascript**
+
+- **HTML e CSS e Javascript são os três pilares do desenvolvimento Web front-end**.
+
+Não tem como se tornar um desenvolver Web sem aprender essas três linguagens, porém não precisa aprender tudo de uma vez. Minha recomendação é iniciar com HTML e CSS e logo quando já se sentir confortável em construir páginas Web básicas inicie com Javascript.
+
+- **Frameworks SPA (Single Page Application)**
+
+No contexto atual do desenvolvimento Web os frameworks SPA tem se tornado dominante, cada vez mais estão sendo utilizados e para você que está iniciando nesse mundo ou já um desenvolvedor Web é super recomendado aprender/dominar pelo menos um dos frameworks mais utilizados: Angular, React ou Vue.js. No entanto, eu particularmente recomendo estudar e aprender primeiro Javascript puro, ou seja, aprender a sintaxe e características da linguagem e só depois adentrar nos frameworks SPA. Para iniciar no mundo dos frameworks SPA eu recomendo o Vue.js, acho ele mais simples e fácil de aprender (pra quem já tem um conhecimento básico de HTML, CSS e JS) , além disso é o [framework JS mais utilizado no mercado](https://twitter.com/zenorocha/status/1380934174043893761).
+
+** 7. API Client**
+
+Geralmente quem constrói aplicações front-end precisa fazer integrações com aplicações back-end por meio de uma API Rest. E para testar a integração, entender como a API funciona e agilizar o processo de construção costumamos utilizar umas ferramentas chamada de API Client, que fazem o papel do front-end e podemos usar para testar envio e consulta de dados a uma API. Algumas das mais conhecidas são:
+
+- [Postman](https://www.postman.com/) - uma plataforma colaborativa para teste e documentação de APIs. É proprietária, possuindo versão grátis e versão paga.
+- [Insomnia](https://insomnia.rest/) - concorrente direta do Postman, possuindo praticamente os mesmos recursos.
+- [HTTPie](https://httpie.io/) - é um cliente HTTP de linha de comando amigável para interagir com APIs, não possui interface gráfica. É open-source e totalmente gratuita, indicada para quem tem familiaridade com linha de comando via terminal.
+
+### Ferramentas para mala do desenvolvedor back-end
+
+** 8. Linguagem de programação (Javascript, Java, Python, C#, Ruby, PHP, Go, Elixir, etc)**
+Para iniciar no desenvolvimento de aplicações Web Back-end a primeira ferramenta que você precisa ter na sua “mala de ferramentas” é uma linguagem de programação. Abaixo listo as mais conhecidas:
+
+- [Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Introduction) - é uma linguagem com suporte aos paradigmas estruturado, orientado a objetos e funcional, utilizada tanto no front-end, rodando nos navegadores, como também pode ser utilizada para desenvolvimento de aplicações Back-end, rodando na plataforma Node.js ou Deno. Justamente por essas possibilidades de uso é a [linguagem mais utilizada no mundo ](https://insights.stackoverflow.com/survey/2020#most-popular-technologies).
+- [Java](https://www.jcp.org/en/home/index) - linguagem orientada a objetos, bastante utilizada no mundo corporativo para desenvolvimento de aplicações Web
+- [Python](https://www.python.org/) - é uma linguagem orientada a objetos e funcional, possui uma sintaxe simples, sendo bastante utilizada em para construção de aplicações de análise de dados.
+
+Além das citadas acima existem muitas outras opções, tais como: Ruby, Go, Elixir, C#…
+
+** 9. Banco de dados**
+
+Sempre que uma aplicação Web precisar persistir dados utilizamos um banco de dados, que pode ser um banco de dados não relacional que organiza os dados em formato de tabelas ou um banco de dados não relacional que organiza os dados em formato de documentos sem as restrições de relacionamentos.
+
+Vale destacar que para a utilização de banco de dados relacionais é fundamental que você aprenda pelo menos o básico da linguagem SQL, que é a linguagem utilizada para criação de tabelas, inserção, consulta, alteração e remoção de dados nesse tipo de banco.
+
+Abaixo listo alguns bancos de dados open-source totalmente gratuitos para você usar na sua aplicação Web.
+
+- [PostgreSQL](https://www.postgresql.org/) - é um sistema gerenciador de banco de dados (SGBD) objeto relacional, desenvolvido como projeto de código aberto.
+- [MariaDB](https://mariadb.org/) - é um SGDB que surgiu como fork do MySQL, após sua aquisição pela Oracle. O líder do MariaDB é Michael Widenius, o fundador do MySQL .
+- [MongoDB](https://www.mongodb.com/) - é um banco de dados NoSQL , orientado a documentos livre, de código aberto e multiplataforma, escrito na linguagem C++. O MongoDB organiza seus dados em formato de documentos semelhantes a JSON com esquemas.
+
+** 10. Plataforma de nuvem**
+
+A forma mais prática e fácil de disponibilizar uma aplicação Web online é colocando-a em uma plataforma de nuvem (cloud). Portanto é importante que qualquer desenvolvedor conheça algumas dessas plataformas para disponibilizar suas aplicações. Além disso, quase todas a empresas utilizam essas plataformas para disponibilização de suas aplicações e serviços online, sendo um requisito básico para qualquer dev conhecer essas plataformas. Abaixo é listada algumas dessas plataformas e suas principais características.
+
+- [ Heroku](https://www.heroku.com/) - é uma plataforma em nuvem como um serviço que suporta várias linguagens de programação. Tem planos gratuito e pago. Recomendo a sua utilização para a implantação de aplicações de back-end.
+- [Netlify](https://www.netlify.com/) - plataforma de computação em nuvem que oferece hospedagem e serviços de back-end sem servidor (serverless) para aplicativos da web e sites estáticos. Recomendo para a implantação de sites estáticos e aplicações de front-end. Simples de utilizar e performática, com uma ótima integração com Github.
+- [Vercel](https://vercel.com/) - basicamente oferece os mesmos recursos que a Netlify.
+- [GitHub Pages](https://pages.github.com/) - plataforma do Github para hospedagem de sites estáticos e aplicações de front-ed a partir de repositórios do Github.
+
+** 11. Testes automatizados**
+
+Item fundamental para qualquer projeto Web, portanto é de suma importância que todo desenvolvedor de software desenvolva habilidades e a cultura da criança de testes automatizados (testes de unidade, testes de integração e testes end-to-end). Para facilitar o desenvolvimento de testes existem diversas ferramentas que auxiliam o desenvolvedor, abaixo citarei algumas que são utilizadas no contexto do Javascript, porém em todas as linguagem você vai encontrar uma opção equivalente.
+
+- [Jest](https://jestjs.io/pt-BR/) - é um poderoso Framework de Testes em JavaScript com um foco na simplicidade. É open-source, criado pelo Facebook. Com ele é possível a criação de testes de unidade e também é a base para execução de testes de integração. Suporta praticamente todos os frameworks Javascript e Typescript de front-end e Back-end.
+- [Supertest](https://www.npmjs.com/package/supertest) - framework para testes de integração utilizando HTTP, muito utilizado no Node.js.
+- [Cypress.io](https://www.cypress.io/) - é um framework de testes automatizados end-to-end usando JavaScript! Teste rápido, fácil e confiável para qualquer coisa que seja executada em um navegador.
+
+** 12. Integração e entrega contínua**
+
+A Integração Contínua - Continuous Integration (CI) é uma prática de desenvolvimento de software em que os desenvolvedores, com frequência, juntam suas alterações de código em um repositório central e executam testes automatizados. Os principais objetivos da integração contínua são encontrar e investigar bugs mais rapidamente, melhorar a qualidade do software e reduzir o tempo que leva para validar e lançar novas atualizações de software [[Amazon Web Services](https://aws.amazon.com/pt/devops/continuous-integration/)].
+
+A Entrega Contínua - Continuous Delivery (CD) é uma extensão da integração contínua, uma vez que implanta automaticamente todas as alterações de código em um ambiente de teste e / ou produção após o estágio de construção [[Atlassian](https://www.atlassian.com/br/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment)].
+
+Nesse contexto, recomendo a utilização das ferramentas de integração e entrega contínua dos próprios serviços Git, tais como o [GitHub Actions](https://github.com/features/actions) do Github e o [GitLab CI/CD](https://docs.gitlab.com/ee/ci/) do Gitlab.
+
+Às duas ferramentas são simples de entender e configurar, as configurações são realizadas por meio da criação de arquivos no formato YAML no próprio repositório do projeto.
+
+### Conclusão
+
+Se você está iniciando ou quer iniciar na carreira de desenvolvedor Web recomendo fortemente que você estude e aprenda pelo menos uma de cada ferramenta das categorias citadas acima, iniciando por HTML, CSS e Javascript. Em paralelo ao estudo dessas três tecnologias estude Git e controle de versão. Para iniciar com HTML, CSS e Javascript escolha um editor de código ou IDE de sua preferência e persista!!! O caminho para se tornar um profissional de desenvolvimento de software pode ser duro, longo…mas é muito recompensador e é um caminho que pode te levar a muitas oportunidades. VAGAS para DEV tem aos montes. Estude, se prepare, busque, trabalhe!
+
+> Faltou alguma ferramenta nessa lista?
+
+> Quais ferramentas você usa e recomenda?

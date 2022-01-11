@@ -7,6 +7,7 @@ import formatDate from '@/lib/utils/formatDate'
 import Comments from '@/components/comments'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
+import SocialButtons from '@/components/SocialButtons'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 export default function PostLayout({
@@ -17,10 +18,11 @@ export default function PostLayout({
   availableLocales,
   children,
 }) {
-  const { date, title, readingTime } = frontMatter
+  const { slug, date, title, summary, readingTime } = frontMatter
   const roundedReadingTime = Math.round(readingTime.minutes)
   const { t } = useTranslation()
   const { locale } = useRouter()
+  const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`
 
   return (
     <SectionContainer>
@@ -57,6 +59,7 @@ export default function PostLayout({
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0 xl:col-span-3 xl:row-span-2">
               <div className="pt-10 pb-8 prose dark:prose-dark max-w-none">{children}</div>
             </div>
+            <SocialButtons postUrl={postUrl} title={title} summary={summary} />
             <Comments frontMatter={frontMatter} />
             <footer>
               <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">

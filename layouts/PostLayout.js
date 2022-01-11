@@ -9,6 +9,7 @@ import Comments from '@/components/comments'
 import useTranslation from 'next-translate/useTranslation'
 import formatDate from '@/lib/utils/formatDate'
 import { useRouter } from 'next/router'
+import SocialButtons from '@/components/SocialButtons'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 const editUrl = (fileName) => `${siteMetadata.siteRepo}/blob/master/data/blog/${fileName}`
@@ -27,11 +28,11 @@ export default function PostLayout({
   availableLocales,
   children,
 }) {
-  const { slug, fileName, date, title, tags, readingTime } = frontMatter
+  const { slug, fileName, date, title, tags, summary, readingTime } = frontMatter
   const roundedReadingTime = Math.round(readingTime.minutes)
   const { t } = useTranslation()
   const { locale } = useRouter()
-
+  const postUrl = `${siteMetadata.siteUrl}/blog/${slug}`
   return (
     <SectionContainer>
       <BlogSEO
@@ -56,8 +57,11 @@ export default function PostLayout({
               <div>
                 <PageTitle>{title}</PageTitle>
               </div>
-              <span className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                {roundedReadingTime} {roundedReadingTime == 1 ? ' minute ' : ' minutes ' + ' read '}
+              <span className="text-md tracking-wide text-gray-500 lowercase dark:text-gray-400">
+                {roundedReadingTime}{' '}
+                {roundedReadingTime == 1
+                  ? t('common:minute')
+                  : t('common:minutes') + ' ' + t('common:read')}
               </span>
             </div>
           </header>
@@ -102,13 +106,7 @@ export default function PostLayout({
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0 xl:col-span-3 xl:row-span-2">
               <div className="pt-10 pb-8 prose dark:prose-dark max-w-none">{children}</div>
-              <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(slug)} rel="nofollow">
-                  {t('common:twitter')}
-                </Link>
-                {` • `}
-                <Link href={editUrl(fileName)}>{t('common:github')}</Link>
-              </div>
+              <SocialButtons postUrl={postUrl} title={title} summary={summary} />
               <Comments frontMatter={frontMatter} />
             </div>
             <footer>
