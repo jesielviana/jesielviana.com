@@ -32,7 +32,7 @@ const LayoutWrapper = ({ children }) => {
                   <Logo width="50" height="50" />
                 </div>
                 {typeof siteMetadata.headerTitle[locale] === 'string' ? (
-                  <div className="hidden h-6 text-2xl font-semibold sm:block">
+                  <div className="hidden text-gray-700 dark:text-gray-200 h-6 text-2xl font-semibold sm:block">
                     {siteMetadata.headerTitle[locale]}
                   </div>
                 ) : (
