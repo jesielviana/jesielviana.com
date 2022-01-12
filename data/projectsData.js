@@ -1,38 +1,62 @@
 const projectsData = {
   en: [
     {
-      title: 'A Search Engine',
-      description: `What if you could look up any information in the world? Webpages, images, videos
-      and more. Google has many features to help you find exactly what you're looking
-      for.`,
-      imgSrc: '/static/images/google.png',
-      href: 'https://www.google.com',
+      title: 'Web Dev Book',
+      description:
+        'Free eBook on web development, from basics (HTTP, HTML, CSS, and Javascript) to advanced (API, Node.js, Integrations, etc).',
+      imgSrc: '/static/images/projects/book.png',
+      href: 'https://webdev.jesielviana.com',
     },
     {
-      title: 'The Time Machine',
-      description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-      to the desired date and press "Go". No more worrying about lost keys or
-      forgotten handphones with this simple yet affordable solution.`,
-      imgSrc: '/static/images/time-machine.jpg',
-      href: '/blog/the-time-machine',
+      title: 'Mambee',
+      description:
+        'Mambee is an extension project at IFPI Campus Picos that seeks innovation and continuous interaction between theory and practice, supporting students in the real application of the concepts learned in the classroom.',
+      imgSrc: '/static/images/projects/mambee.png',
+      href: 'https://mambeeifpi.github.io',
+    },
+    {
+      title: 'PBL Planner Online',
+      description:
+        'PBL Planner Online is a collaborative platform for teaching planning in the PBL (Problem-Based Learning) approach.',
+      imgSrc: '/static/images/projects/pblplanner.png',
+      href: 'https://pblplanneronline.jesielviana.com',
+    },
+    {
+      title: 'Podcast B-a-bá do Dev',
+      description:
+        'A podcast about software development, where we talk to students and professionals in the field about technologies and careers. Available on several digital platforms.',
+      imgSrc: '/static/images/projects/podcast.jpeg',
+      href: 'https://anchor.fm/babadodev',
     },
   ],
-  fr: [
+  'pt-Br': [
     {
-      title: 'Un moteur de recherche',
-      description: `Et si vous pouviez rechercher n'importe quelle information dans le monde ? Pages web, images, vidéos
-      et bien d'autres choses encore. Google propose de nombreuses fonctionnalités pour vous aider à trouver exactement ce que vous recherchez.
-      pour.`,
-      imgSrc: '/static/images/google.png',
-      href: 'https://www.google.com',
+      title: 'Web Dev Book',
+      description:
+        'eBook gratuito sobre desenvolvimento web, do básico (HTTP, HTML, CSS e Javascritp) ao avançado (API, Node.js, Integrações, etc).',
+      imgSrc: '/static/images/projects/book.png',
+      href: 'https://webdev.jesielviana.com',
     },
     {
-      title: 'La machine à remonter le temps',
-      description: `Imaginez que vous puissiez voyager dans le passé ou dans le futur. Il suffit de tourner le bouton
-      sur la date souhaitée et d'appuyer sur "Go". Plus besoin de se soucier des clés perdues ou des téléphones portables oubliés avec cette solution simple et abordable.
-      ou de téléphones portables oubliés grâce à cette solution simple et abordable.`,
-      imgSrc: '/static/images/time-machine.jpg',
-      href: '/blog/the-time-machine',
+      title: 'Mambee',
+      description:
+        'A Fábrica Escola de Software Mambee é um projeto de extensão no IFPI Campus Picos que busca a inovação e a interação contínua entre teoria e prática, subsidiando os alunos na aplicação real dos conceitos aprendidos em sala de aula.',
+      imgSrc: '/static/images/projects/mambee.png',
+      href: 'https://mambeeifpi.github.io',
+    },
+    {
+      title: 'PBL Planner Online',
+      description:
+        'PBL Planner Online é uma plataforma colaborativa para o planejamento de ensino na abordagem PBL - Problem-Based Learning (em português, Aprendizagem Baseada em Problemas)',
+      imgSrc: '/static/images/projects/pblplanner.png',
+      href: 'https://pblplanneronline.jesielviana.com',
+    },
+    {
+      title: 'Podcast B-a-bá do Dev',
+      description:
+        'Podcast sobre desenvolvimento de software, onde conversamos com alunos e profissionais da área sobre tecnologias e carreia. Disponível em diversas plataformas digitais.',
+      imgSrc: '/static/images/projects/podcast.jpeg',
+      href: 'https://anchor.fm/babadodev',
     },
   ],
 }
