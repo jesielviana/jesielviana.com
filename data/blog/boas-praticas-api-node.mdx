@@ -16,10 +16,7 @@ authors: ['default']
 
 O conjunto de boas práticas que descrevo abaixo é resultado da minha experiência em construir aplicações Node.js, de vários anos ensinando desenvolvimento Web, além de uma extensa pesquisa e leitura de artigos, livros e códigos de vários projetos.
 
-> <a href="https://github.com/jesielviana/nodejs-express-sequelize" target="_blank">
->   o código completo de todos os exemplos de boas práticas estão neste repositório do Github
-> </a>
-> .
+[o código completo de todos os exemplos de boas práticas estão neste repositório do GitHub](https://github.com/jesielviana/nodejs-express-sequelize)
 
 ### 1 - Estrutura de diretórios
 
@@ -207,7 +204,7 @@ Para todos os exemplos utilizados neste item foi utilizado um model do sequelize
 ```
 
 > <a href="https://github.com/jesielviana/nodejs-express-sequelize" target="_blank">
->   o código completo de todos os exemplos de boas práticas estão neste repositório do Github
+>   o código completo de todos os exemplos de boas práticas estão neste repositório do GitHub
 > </a>
 > .
 
@@ -229,8 +226,7 @@ Para cada tipo de operação que podemos realizar por meio de uma API há um mé
 - `DELETE /courses/:id` para remover um curso já cadastrado.
 
 > OBS: PUT e PATCH são usados para alteração de dados. PUT é semanticamente indicado para alteração da entidade completa, ou seja, sobrescrita de todos os dados da entidade/recurso a ser alterado. Já o PATCH para uma atualização parcial, quando se deseja sobrescrever um atribudo específico da entidade/recurso
-> [https://tools.ietf.org/html/rfc5789](PATCH)
-> [https://tools.ietf.org/html/rfc2616#section-9.6](PUT).
+> [https://tools.ietf.org/html/rfc5789](PATCH) > [https://tools.ietf.org/html/rfc2616#section-9.6](PUT).
 
 Como prática recomendada, suas rotas de API (**endpoints**) devem utilizar substantivos no plural como identificadores dos recursos, como no exemplo acima, usamos o identicador `courses` como rota (**endpoints**) para manipulação de cursos.
 
@@ -300,13 +296,13 @@ describe('Testando a rota de curso', () => {
 
 ```
 
-No exemplo acima é realizado um teste completo de criação de um novo curso, desde a requisição HTTP na rota de curso passando o dados do novo curso até a inserção no banco de dados e verificação da resposta HTTP. Exemplo completo está neste [repositório do Github](https://github.com/jesielviana/nodejs-express-sequelize).
+No exemplo acima é realizado um teste completo de criação de um novo curso, desde a requisição HTTP na rota de curso passando o dados do novo curso até a inserção no banco de dados e verificação da resposta HTTP. Exemplo completo está neste [repositório do GitHub](https://github.com/jesielviana/nodejs-express-sequelize).
 
 ### 7 - Cuide bem da segurança de sua API
 
 Quando falamos de segurança na Web o uso de HTTPS (TLS/SSL) é fundamental e obrigatório. USE SEMPRE HTTPS!
 
-Quando for utilizar módulos/depedências do NPM verifique a origem, atualizações, possíveis falhas de segurança, etc. Para isso, recomendo a utilização do [Snyk Open Source Security Management](https://snyk.io/product/open-source-security-management/), uma ferramenta que conecta com seu repositório do Github e verifica posséveis brechas de seguranças de todas as dependências de sua aplicação Node.js.
+Quando for utilizar módulos/depedências do NPM verifique a origem, atualizações, possíveis falhas de segurança, etc. Para isso, recomendo a utilização do [Snyk Open Source Security Management](https://snyk.io/product/open-source-security-management/), uma ferramenta que conecta com seu repositório do GitHub e verifica posséveis brechas de seguranças de todas as dependências de sua aplicação Node.js.
 
 Em aplicações com Express.js, use o [Helmet](https://helmetjs.github.io/). Helmet é uma biblioteca para Express.js que agrega vários middlewares, responsáveis por setar alguns headers nas mensagens HTTP, tornando sua aplicação mais segura.
 
@@ -341,8 +337,8 @@ A Entrega Contínua - [Continuous Delivery (CD)](https://www.atlassian.com/br/co
 
 É importante destacar que para a utilização de Integração e Entrega Contínua é essencial que sua aplicação use e abuse de testes automatizados, testes unitários e principalmente testes de integração.
 
-A configuração e utilização dos recursos de Integração e Entrega Contínua tem sido bastante simples em projetos armazenados no Github e Gitlab.
-Segue um exemplo de arquivos de configuração para o Github Actions:
+A configuração e utilização dos recursos de Integração e Entrega Contínua tem sido bastante simples em projetos armazenados no GitHub e Gitlab.
+Segue um exemplo de arquivos de configuração para o GitHub Actions:
 
 ```yaml
 name: Node.js CI and DI
@@ -409,7 +405,7 @@ OBS: Caso algum dos passos falhe o fluxo é interrompido e os próximos passos n
 **_E aí quais dessas práticas você já usa? quais são novas pra você?
 Comente, sugira, corrija!!!_**
 
-O código completo de todos os exemplos de boas práticas estão neste [repositório do Github](https://github.com/jesielviana/nodejs-express-sequelize).
+O código completo de todos os exemplos de boas práticas estão neste [repositório do GitHub](https://github.com/jesielviana/nodejs-express-sequelize).
 
 > E você gostou das dicas? Quais dessas boas práticas você já conhecia? Quais são as boas práticas que você usa e recomanda? Deixe nos seus comentários ou no [Twitter](htts://twitter.com/jesielviana)
 
