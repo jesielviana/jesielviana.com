@@ -2,7 +2,7 @@
 title: '9 best practices for building Node.js API'
 date: 2020-04-15T15:32:14Z
 tags: ['nodejs', 'api', 'architecture']
-draft: true
+draft: false
 summary: 'The use of patterns and best practices in software development avoids duplication of code, facilitates software change and evolution, increases code readability, etc.'
 images: ['/static/images/posts/banner-nodejs.png']
 authors: ['default']
@@ -30,4 +30,61 @@ In Node.js applications, are generally used two types of directory structure:
 
 In the division by component, the files are grouped by feature directory. See the example below:
 
-under construction...
+```shell:projetc-structure
+src/
+  ├── courses/
+        ├── courses.service.js
+        ├── course.model.js
+        ├── courses.routes.js
+  ├── students/
+        ├── students.service.js
+        ├── student.model.js
+        ├── students.routes.js
+  ├── app.js
+```
+
+Structuring by technical roles, the files are grouped in the folders by layers, according to your responsibility. As you can see in the example below:
+
+```shell:projetc-structure
+src/
+  ├── services/
+        ├── courses.js
+        ├── students.js
+  ├── model/
+        ├── course.js
+        ├── student.js
+  ├── routes/
+        ├── index.js
+        ├── courses.js
+        ├── students.js
+  ├── app.js
+```
+
+Between these two approaches, **I recommend structuring by technical role layer**. Yet, there is not the correct option. It is up to each project team to discuss and choose a default structure.
+
+Based on structured by technical role layer, I organize my projects as follows:
+
+```shell:projetc-structure
+├── server.js        the entry point for starting the server (network configurations)
+src/
+  ├── app.js         Express(http-server) config
+  ├── api/           Express route handlers for all the endpoints of the app
+  ├── config/        environment configurations
+  ├── services/      service layer with the business logic
+  ├── models/        model layer with database entities
+test/
+  ├── unit/          all the unit tests of the app
+  ├── integration/   all the integration tests of the app
+├── package.json     main project configuration file
+├── ...              others config files (.gitignore, jest.config, .sequelizerc, etc)
+```
+
+I recommend separating Express definitions from HTTP network configuration. I usually named `app` for Express definition and `server` for HTTP network configs and server startup (see example above).
+The `server` file with network configurations (port, protocol, etc) and startup. And the `app` file with the express API configuration (routes, JSON, and middleware).
+This allows testing the API in-process in an isolated test environment. It guarantees a better separation of concerns and a cleaner code.
+
+**This page is currently a draft**. Look back later to see what's changed.
+
+<span role="img" aria-label="roadwork sign">
+  🚧
+</span>
