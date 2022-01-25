@@ -6,59 +6,43 @@ import { formatSlug, getAllFilesFrontMatter, getFileBySlug, getFiles } from '@/l
 
 const DEFAULT_LAYOUT = 'PostLayout'
 
-export async function getStaticPaths({ locales, defaultLocale }) {
-  const localesPost = locales
-    .map((locale) => {
-      const otherLocale = locale !== defaultLocale ? locale : ''
-      const posts = getFiles('blog', otherLocale)
-      return posts.map((post) => [post, locale])
-    })
-    .flat()
-
+export async function getStaticPaths() {
+  const posts = getFiles('blog')
   return {
-    paths: localesPost.map(([p, l]) => ({
+    paths: posts.map((p) => ({
       params: {
         slug: formatSlug(p).split('/'),
       },
-      locale: l,
     })),
     fallback: false,
   }
 }
 
-export async function getStaticProps({ defaultLocale, locales, locale, params }) {
-  const otherLocale = locale !== defaultLocale ? locale : ''
-  const allPosts = await getAllFilesFrontMatter('blog', otherLocale)
+export async function getStaticProps({ params }) {
+  const allPosts = await getAllFilesFrontMatter('blog')
   const postIndex = allPosts.findIndex((post) => formatSlug(post.slug) === params.slug.join('/'))
   const prev = allPosts[postIndex + 1] || null
   const next = allPosts[postIndex - 1] || null
-  const post = await getFileBySlug('blog', params.slug.join('/'), otherLocale)
+  const post = await getFileBySlug('blog', params.slug.join('/'))
   const authorList = post.frontMatter.authors || ['default']
   const authorPromise = authorList.map(async (author) => {
-    const authorResults = await getFileBySlug('authors', [author], otherLocale)
+    const authorResults = await getFileBySlug('authors', [author])
     return authorResults.frontMatter
   })
   const authorDetails = await Promise.all(authorPromise)
 
   // rss
-  const rss = generateRss(allPosts, locale, defaultLocale)
-  fs.writeFileSync(`./public/feed${otherLocale === '' ? '' : `.${otherLocale}`}.xml`, rss)
+  if (allPosts.length > 0) {
+    const rss = generateRss(allPosts)
+    fs.writeFileSync('./public/feed.xml', rss)
+  }
 
-  // Checking if available in other locale for SEO
-  const availableLocales = []
-  await locales.forEach(async (ilocal) => {
-    const otherLocale = ilocal !== defaultLocale ? ilocal : ''
-    const iAllPosts = await getAllFilesFrontMatter('blog', otherLocale)
-    iAllPosts.map((ipost) => {
-      if (ipost.slug === post.frontMatter.slug && ipost.slug !== '') availableLocales.push(ilocal)
-    })
-  })
-
-  return { props: { post, authorDetails, prev, next, availableLocales } }
+  return { props: { post, authorDetails, prev, next } }
 }
 
-export default function Blog({ post, authorDetails, prev, next, availableLocales }) {
+export default function Blog({ post, authorDetails, prev, next }) {
   const { mdxSource, toc, frontMatter } = post
+
   return (
     <>
       {frontMatter.draft !== true ? (
@@ -70,7 +54,6 @@ export default function Blog({ post, authorDetails, prev, next, availableLocales
           authorDetails={authorDetails}
           prev={prev}
           next={next}
-          availableLocales={availableLocales}
         />
       ) : (
         <div className="mt-24 text-center">

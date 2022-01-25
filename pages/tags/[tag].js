@@ -10,63 +10,44 @@ import path from 'path'
 
 const root = process.cwd()
 
-export async function getStaticPaths({ locales, defaultLocale }) {
-  const tags = await Promise.all(
-    locales.map(async (locale) => {
-      const otherLocale = locale !== defaultLocale ? locale : ''
-      const tags = await getAllTags('blog', otherLocale)
-      return Object.entries(tags).map((k) => [k[0], locale])
-    })
-  )
+export async function getStaticPaths() {
+  const tags = await getAllTags('blog')
 
   return {
-    paths: tags.flat().map(([tag, locale]) => ({
+    paths: Object.keys(tags).map((tag) => ({
       params: {
         tag,
       },
-      locale,
     })),
     fallback: false,
   }
 }
 
-export async function getStaticProps({ params, defaultLocale, locale, locales }) {
-  const otherLocale = locale !== defaultLocale ? locale : ''
-  const allPosts = await getAllFilesFrontMatter('blog', otherLocale)
+export async function getStaticProps({ params }) {
+  const allPosts = await getAllFilesFrontMatter('blog')
   const filteredPosts = allPosts.filter(
     (post) => post.draft !== true && post.tags.map((t) => kebabCase(t)).includes(params.tag)
   )
 
   // rss
-  const rss = generateRss(filteredPosts, locale, defaultLocale, `tags/${params.tag}/feed.xml`)
-  const rssPath = path.join(root, 'public', 'tags', params.tag)
-  fs.mkdirSync(rssPath, { recursive: true })
-  fs.writeFileSync(
-    path.join(rssPath, `feed${otherLocale === '' ? '' : `.${otherLocale}`}.xml`),
-    rss
-  )
+  if (filteredPosts.length > 0) {
+    const rss = generateRss(filteredPosts, `tags/${params.tag}/feed.xml`)
+    const rssPath = path.join(root, 'public', 'tags', params.tag)
+    fs.mkdirSync(rssPath, { recursive: true })
+    fs.writeFileSync(path.join(rssPath, 'feed.xml'), rss)
+  }
 
-  // Checking if available in other locale for SEO
-  const availableLocales = []
-  await locales.forEach(async (ilocal) => {
-    const otherLocale = ilocal !== defaultLocale ? ilocal : ''
-    const itags = await getAllTags('blog', otherLocale)
-    Object.entries(itags).map((itag) => {
-      if (itag[0] === params.tag) availableLocales.push(ilocal)
-    })
-  })
-
-  return { props: { posts: filteredPosts, tag: params.tag, locale, availableLocales } }
+  return { props: { posts: filteredPosts, tag: params.tag } }
 }
 
-export default function Tag({ posts, tag, locale, availableLocales }) {
+export default function Tag({ posts, tag }) {
+  // Capitalize first letter and convert space to dash
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   return (
     <>
       <TagSEO
-        title={`${tag} - ${siteMetadata.title[locale]}`}
-        description={`${tag} tags - ${siteMetadata.title[locale]}`}
-        availableLocales={availableLocales}
+        title={`${tag} - ${siteMetadata.author}`}
+        description={`${tag} tags - ${siteMetadata.author}`}
       />
       <ListLayout posts={posts} title={title} />
     </>

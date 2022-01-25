@@ -35,13 +35,11 @@ export default function Home({ posts, locale, availableLocales }) {
           </h1>
           <h2 className="text-lg prose text-gray-600 dark:text-gray-400">
             {t('common:summary')}
-            <Link href="https://webdev.jesielviana.com">{t('common:webdevebook')}</Link>
-            {'. ' + t('common:goodRead')}
+            <Link href="https:/webdev.jesielviana.com">{t('common:webdevebook')}</Link>
+            {`. ${t('common:goodRead')}`}
           </h2>
         </div>
-        <div className="newsletter-head flex items-center justify-center mx-2 my-12 w-96">
-          {/* <BlogNewsletterForm title={t('newsletter:title')} /> */}
-        </div>
+        <div></div>
       </div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="pt-6 pb-4 space-y-2 md:space-y-5">
