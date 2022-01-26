@@ -1,8 +1,8 @@
 ---
 title: '9 best practices for building Node.js API'
-date: 2020-04-15T15:32:14Z
+date: 2022-01-26
 tags: ['nodejs', 'api', 'architecture']
-draft: true
+draft: false
 summary: 'The use of patterns and best practices in software development avoids duplication of code, facilitates software change and evolution, increases code readability, etc.'
 images: ['/static/images/posts/banner-nodejs.png']
 authors: ['default']
@@ -10,7 +10,7 @@ authors: ['default']
 
 ### Introduction
 
-Node.js is a good tool for building REST APIs. It is one of the [most popular](https://insights.stackoverflow.com/survey/2021#technology-most-popular-technologies) techs among devs. **If you use Node.js or are learning Node.js to build REST APIs, this post is for you**.
+Node.js is a good tool for building REST APIs. It is one of the [most popular](https://insights.stackoverflow.com/survey/2021#technology-most-popular-technologies) techs among devs. **If you are a Node.js developer or are learning Node.js to build REST APIs, this post is for you**.
 
 This post describes a set of best practices for building [Node.js](https://nodejs.org/pt-br/) APIs with the [Express](https://expressjs.com) framework.
 
@@ -21,7 +21,17 @@ I have experience building Node.js applications and teaching web development. An
 
 [The complete code of all good practice examples is in this GitHub repository](https://github.com/jesielviana/nodejs-express-sequelize)
 
-### 1 - Project structure
+### 1 - Layered architecture
+
+Use the principle of [separation of concerns](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html). Segregating an application code into three-tier architecture: API routes, Services, and Models.
+
+![Node.js three-tier architecture](/static/images/posts/nodejs-layers.png)
+
+- `API routes` - contains all the API routes of the app. It is responsible too for handling the HTTP requests and HTTP responses.
+- `Services` - use this layer to put your business logic and for integrating the data layer and the API routes layer.
+- `Models` - define the access to the data and database entities.
+
+### 2 - Project structure
 
 In Node.js applications, are generally used two types of directory structure:
 
@@ -83,7 +93,7 @@ I recommend separating Express definitions from HTTP network configuration. I us
 The `server` file with network configurations (port, protocol, etc) and startup. And the `app` file with the express API configuration (routes, JSON, and middleware).
 This allows testing the API in-process in an isolated test environment. It guarantees a better separation of concerns and a cleaner code.
 
-**This page is currently a draft**. Look back later to see what's changed.
+### 3 - Separate business logic from the router controllers
 
 <span role="img" aria-label="roadwork sign">
   🚧

@@ -18,7 +18,17 @@ O conjunto de boas práticas que descrevo abaixo é resultado da minha experiên
 
 [o código completo de todos os exemplos de boas práticas estão neste repositório do GitHub](https://github.com/jesielviana/nodejs-express-sequelize)
 
-### 1 - Estrutura do projeto
+### 1 - Arquitetura em 3 Camadas
+
+Baseada no [Princípio da Separação de Conceitos](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html), organize a aplicação em três camadas: API routes, Services e Models, conforme a figura abaixo.
+
+![Arquitetura em camada Node.js](/static/images/posts/nodejs-layers.png)
+
+- `API routes` - camada responsável pela definição dos _endpoints_ da _API_ e tratamento das requisições e respostas da aplicação.
+- `Services` - camada responsável pelas regras de negócios e por fazer a integração entre a camada de dados e a camada de API/Rotas.
+- `Models` - camada responsável pela modelagem e acesso aos dados da aplicação.
+
+### 2 - Estrutura do projeto
 
 Em aplicações Node.js geralmente são utilizados dois tipos de estruturação de diretórios:
 
@@ -77,16 +87,6 @@ test/
 ```
 
 **Obs:** recomendo a criação do arquivo `server.js` para inicialização do servidor http separado do arquivos de definição e configuração do express, geralmente nomeado de `app.js` . Isso facilita demais a realização dos testes de integração, pois permite testar a API usando somente o `app.js` , sem realizar chamadas de inicialização do servidor.
-
-### 2 - Arquitetura em Camadas
-
-Em projetos Node.js podemos fazer a divisão em três (3) camadas, baseada no Princípio da Separação de Conceitos (<a href="https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html" target="_blank">Dijkstra</a>). As três camadas são API/Routes, Services e Models, conforme a figura abaixo.
-
-![Arquitetura em camada Node.js](/static/images/posts/nodejs-layers.png)
-
-- `API/Routes` - camada responsável pela definição dos _endpoints_ da _API_ e tratamento das requisições e respostas da aplicação.
-- `Services` - camada responsável pelas regras de negócios e por fazer a integração entre a camada de dados e a camada de API/Rotas.
-- `Models` - camada responsável pela modelagem e acesso aos dados da aplicação.
 
 ### 3 - Separe as regras de negócios do tratamento de requisições e respostas
 
