@@ -147,8 +147,8 @@ Com isso a função/classe assume muitas responsabilidades, ferindo as boas prá
 
 Diante dessa situação, a minha recomendação é isolar o código de tratamento de requisições e respostas na camada de `routes` e o código de regras de negócios e acesso a dados na camada de `services`. Segue um exemplo de boa prática baseado nos conceitos de separação das responsabilidades e coesão:
 
-```js
-// src/routes/courses.js -> arquivo de tratamento de rotas na camada de routes
+```js:src/routes/courses.js
+//arquivo de tratamento de rotas na camada de API routes
 router.post('/', async (req, res) => {
   try {
     const { name, ch } = req.body
@@ -161,7 +161,7 @@ router.post('/', async (req, res) => {
 ```
 
 ```js:src/services/courses.js
-// arquivo de serviços
+// arquivo com regras de negócios na camada de serviços
 async create (courseDTO) {
   try {
     await this.verifyIfCourseNameIsRegistered(courseDTO.name)
@@ -207,12 +207,9 @@ Para todos os exemplos utilizados neste item foi utilizado um model do sequelize
   })
 ```
 
-> <a href="https://github.com/jesielviana/nodejs-express-sequelize" target="_blank">
->   o código completo de todos os exemplos de boas práticas estão neste repositório do GitHub
-> </a>
-> .
+> [o código completo de todos os exemplos de boas práticas estão neste repositório do GitHub](https://github.com/jesielviana/nodejs-express-sequelize)
 
-Resumindo...
+Resumindo este item:
 
 - Separe o código dos `routes` do express da camada de `services`
 - Tudo relacionado a url, código de status, cabeçalhos e métodos do HTTP devem ser tratados na camada/arquivo de `routes`

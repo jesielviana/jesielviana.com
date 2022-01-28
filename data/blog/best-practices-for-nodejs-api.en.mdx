@@ -95,6 +95,138 @@ This allows testing the API in-process in an isolated test environment. It guara
 
 ### 3 - Separate business logic from the router controllers
 
+Some applications mix the APIs routes handling code with the application's business rules.
+
+Sometimes the business rules and data access code are put in the API routes layer. As in the example below (Don't do this!):
+
+```js:src/routes/courses.js
+// arquivo de rotas
+router.post('/courses', async (req, res) => {
+  try {
+    const { name, ch } = req.body
+        const existingCourse = await courseModel.findAll({
+      where: {
+        name: name
+      }
+    })
+    if (existingCourse.length > 0) {
+      throw new Error('Course already registered')
+    }
+    await courseModel.create({ name, ch })
+    res.status(201).json({ message: 'Course created!' })
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+```
+
+In other cases, the APIs routes handling (HTTP request and HTTP response objects) are passed from the API routes layer to the services layer. As we can see in the example below (Don't do this too!).
+
+```js:src/routes/courses.js
+// arquivo de tratamento de rotas na camada de routes
+router.post('/courses', (req, res) => coursesService.create(req, res));
+```
+
+```js:src/services/courses.js
+//  arquivo de serviços
+ create(req, res) {
+  try {
+    const { name, ch } = req.body
+        const existingCourse = await courseModel.findAll({
+      where: {
+        name: name
+      }
+    })
+    if (existingCourse.length > 0) {
+      throw new Error('Course already registered')
+    }
+    await courseModel.create({ name, ch })
+    res.status(201).json({ message: 'Course created!' })
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+```
+
+In the two examples above, the APIs routes handling code is mixed with the business rules.
+
+APIs routes are responsible for handling all HTTP requests and responses (validate request body data, URL parameters, sending the response with content and status code, etc). And the business rules perform requirements validation and data manipulation.
+
+As a result, the function/class assumes many responsibilities, violating good practices of cohesion and separation of concepts. This impacts the code readability and maintainability. And makes it harder to write unit tests. (eg. dealing with complex mocks for express req and res objects).
+
+Given this situation, you can isolate the code for handling APIs routes in the routes layer. And put the code for business rules and data access in the services layer.
+
+The following is an example of good practice based on the concepts of separation of responsibilities and cohesion. See below:
+
+```js:src/routes/courses.js
+// handling HTTP requests and responses on the API routes layer
+router.post('/', async (req, res) => {
+  try {
+    const { name, ch } = req.body
+    await courseService.create({ name, ch })
+    res.status(201).json({ name, ch })
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+})
+```
+
+```js:src/services/courses.js
+// business logic and data manipulation on the service layer
+async create (courseDTO) {
+  try {
+    await this.verifyIfCourseNameIsRegistered(courseDTO.name)
+    await courseModel.create(courseDTO)
+  } catch (err) {
+    throw new Error(err.message)
+  }
+}
+
+async verifyIfCourseNameIsRegistered (courseName) {
+  const existingCourse = await courseModel.findAll({
+    where: {
+      name: courseName
+    }
+  })
+  if (existingCourse.length > 0) {
+    throw new Error('Course already registered')
+  }
+}
+```
+
+With this separation, you keep the code cohesive and more readable. Also, makes it simpler to create unit tests per layer.
+
+For all the examples used in this item, I used a Sequelize model. This model represents the course entity for the Postgres database.
+
+```js:models/course.js
+  const CourseModel = sequelize.define('Course', {
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    ch: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    }
+  })
+```
+
+Summarizing this item:
+
+- Separate the API routes code from the services layer;
+- The API routes layer must handle everything related to HTTP requests: URL, status code, headers, and methods;
+- Do not pass `req` and `res` objects to the services layer;
+- The services layer must handle only business rules and integration with models.
+
+## 4 - Identification of resources and operations
+
 <span role="img" aria-label="roadwork sign">
-  🚧
+  Under Construction... 🚧
 </span>
