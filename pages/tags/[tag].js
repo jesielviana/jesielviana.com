@@ -10,7 +10,7 @@ import path from 'path'
 
 const root = process.cwd()
 
-export async function getStaticPaths({ locales, defaultLocale }) {
+export async function getStaticPaths ({ locales, defaultLocale }) {
   const tags = await Promise.all(
     locales.map(async (locale) => {
       const otherLocale = locale !== defaultLocale ? locale : ''
@@ -22,15 +22,15 @@ export async function getStaticPaths({ locales, defaultLocale }) {
   return {
     paths: tags.flat().map(([tag, locale]) => ({
       params: {
-        tag,
+        tag
       },
-      locale,
+      locale
     })),
-    fallback: false,
+    fallback: false
   }
 }
 
-export async function getStaticProps({ params, defaultLocale, locale, locales }) {
+export async function getStaticProps ({ params, defaultLocale, locale, locales }) {
   const otherLocale = locale !== defaultLocale ? locale : ''
   const allPosts = await getAllFilesFrontMatter('blog', otherLocale)
   const filteredPosts = allPosts.filter(
@@ -53,6 +53,7 @@ export async function getStaticProps({ params, defaultLocale, locale, locales })
   await locales.forEach(async (ilocal) => {
     const otherLocale = ilocal !== defaultLocale ? ilocal : ''
     const itags = await getAllTags('blog', otherLocale)
+    /* eslint-disable array-callback-return */
     Object.entries(itags).map((itag) => {
       if (itag[0] === params.tag) availableLocales.push(ilocal)
     })
@@ -61,7 +62,7 @@ export async function getStaticProps({ params, defaultLocale, locale, locales })
   return { props: { posts: filteredPosts, tag: params.tag, locale, availableLocales } }
 }
 
-export default function Tag({ posts, tag, locale, availableLocales }) {
+export default function Tag ({ posts, tag, locale, availableLocales }) {
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   return (
     <>

@@ -21,11 +21,11 @@ const getLayouts = () => {
 }
 
 const genFrontMatter = (answers) => {
-  let d = new Date()
+  const d = new Date()
   const date = [
     d.getFullYear(),
     ('0' + (d.getMonth() + 1)).slice(-2),
-    ('0' + d.getDate()).slice(-2),
+    ('0' + d.getDate()).slice(-2)
   ].join('-')
   const tagArray = answers.tags.split(',')
   tagArray.forEach((tag, index) => (tagArray[index] = tag.trim()))
@@ -36,7 +36,7 @@ const genFrontMatter = (answers) => {
   title: ${answers.title ? answers.title : 'Untitled'}
   date: '${date}'
   tags: [${answers.tags ? tags : ''}]
-  draft: ${answers.draft === 'yes' ? true : false}
+  draft: ${answers.draft === 'yes'}
   summary: ${answers.summary ? answers.summary : ' '}
   images: []
   layout: ${answers.layout}
@@ -56,42 +56,42 @@ inquirer
     {
       name: 'title',
       message: 'Enter post title:',
-      type: 'input',
+      type: 'input'
     },
     {
       name: 'extension',
       message: 'Choose post extension:',
       type: 'list',
-      choices: ['mdx', 'md'],
+      choices: ['mdx', 'md']
     },
     {
       name: 'authors',
       message: 'Choose authors:',
       type: 'checkbox',
-      choices: getAuthors,
+      choices: getAuthors
     },
     {
       name: 'summary',
       message: 'Enter post summary:',
-      type: 'input',
+      type: 'input'
     },
     {
       name: 'draft',
       message: 'Set post as draft?',
       type: 'list',
-      choices: ['yes', 'no'],
+      choices: ['yes', 'no']
     },
     {
       name: 'tags',
       message: 'Any Tags? Separate them with , or leave empty if no tags.',
-      type: 'input',
+      type: 'input'
     },
     {
       name: 'layout',
       message: 'Select layout',
       type: 'list',
-      choices: getLayouts,
-    },
+      choices: getLayouts
+    }
   ])
   .then((answers) => {
     // Remove special characters and replace space with -
@@ -101,7 +101,7 @@ inquirer
       .replace(/ /g, '-')
       .replace(/-+/g, '-')
     const frontMatter = genFrontMatter(answers)
-    const filePath = `data/blog/${fileName ? fileName : 'untitled'}.${
+    const filePath = `data/blog/${fileName || 'untitled'}.${
       answers.extension ? answers.extension : 'md'
     }`
     fs.writeFile(filePath, frontMatter, { flag: 'wx' }, (err) => {

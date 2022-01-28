@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import GA from './GoogleAnalytics'
 import Plausible from './Plausible'
 import SimpleAnalytics from './SimpleAnalytics'

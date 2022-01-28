@@ -10,17 +10,17 @@ export default async (req, res) => {
     const buttondownRoute = `${process.env.BUTTONDOWN_API_URL}subscribers`
     const response = await fetch(buttondownRoute, {
       body: JSON.stringify({
-        email,
+        email
       }),
       headers: {
         Authorization: `Token ${API_KEY}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: 'POST'
     })
 
     if (response.status >= 400) {
-      return res.status(500).json({ error: `There was an error subscribing to the list.` })
+      return res.status(500).json({ error: 'There was an error subscribing to the list.' })
     }
 
     return res.status(201).json({ error: '' })

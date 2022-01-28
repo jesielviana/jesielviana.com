@@ -3,13 +3,13 @@ import { getFileBySlug } from '@/lib/mdx'
 
 const DEFAULT_LAYOUT = 'AuthorLayout'
 
-export async function getStaticProps({ locale, defaultLocale, locales }) {
+export async function getStaticProps ({ locale, defaultLocale, locales }) {
   const otherLocale = locale !== defaultLocale ? locale : ''
-  const authorDetails = await getFileBySlug('authors', [`default`], otherLocale)
+  const authorDetails = await getFileBySlug('authors', ['default'], otherLocale)
   return { props: { authorDetails, availableLocales: locales } }
 }
 
-export default function About({ authorDetails, availableLocales }) {
+export default function About ({ authorDetails, availableLocales }) {
   const { mdxSource, frontMatter } = authorDetails
 
   return (

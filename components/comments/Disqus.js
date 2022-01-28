@@ -8,7 +8,7 @@ const Disqus = ({ frontMatter }) => {
   const [enableLoadComments, setEnabledLoadComments] = useState(true)
   const COMMENTS_ID = 'disqus_thread'
 
-  function LoadComments() {
+  function LoadComments () {
     setEnabledLoadComments(false)
 
     window.disqus_config = function () {
@@ -29,9 +29,9 @@ const Disqus = ({ frontMatter }) => {
   }
 
   return (
-    <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300">
+    <div className='pt-6 pb-6 text-center text-gray-700 dark:text-gray-300'>
       {enableLoadComments && <button onClick={LoadComments}>{t('common:comment')}</button>}
-      <div className="disqus-frame" id={COMMENTS_ID} />
+      <div className='disqus-frame' id={COMMENTS_ID} />
     </div>
   )
 }

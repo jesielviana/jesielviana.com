@@ -6,6 +6,7 @@ draft: false
 summary: 'The use of patterns and best practices in software development avoids duplication of code, facilitates software change and evolution, increases code readability, etc.'
 images: ['/static/images/posts/banner-nodejs.png']
 authors: ['default']
+layout: PostSimple
 ---
 
 ### Introduction
@@ -25,7 +26,9 @@ I have experience building Node.js applications and teaching web development. An
 
 Use the principle of [separation of concerns](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html). Segregating an application code into three-tier architecture: API routes, Services, and Models.
 
-![Node.js three-tier architecture](/static/images/posts/nodejs-layers.png)
+<div class="flex justify-center">
+<Image alt="Node.js three-tier architecture" src="/static/images/posts/nodejs-layers.png" width={299} height={331} />
+</div>
 
 - `API routes` - contains all the API routes of the app. It is responsible too for handling the HTTP requests and HTTP responses.
 - `Services` - use this layer to put your business logic and for integrating the data layer and the API routes layer.

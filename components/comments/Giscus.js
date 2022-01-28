@@ -11,8 +11,8 @@ const Giscus = ({ mapping }) => {
   const commentsTheme =
     siteMetadata.comment.giscusConfig.themeURL === ''
       ? theme === 'dark' || resolvedTheme === 'dark'
-        ? siteMetadata.comment.giscusConfig.darkTheme
-        : siteMetadata.comment.giscusConfig.theme
+          ? siteMetadata.comment.giscusConfig.darkTheme
+          : siteMetadata.comment.giscusConfig.theme
       : siteMetadata.comment.giscusConfig.themeURL
 
   const COMMENTS_ID = 'comments-container'
@@ -49,9 +49,9 @@ const Giscus = ({ mapping }) => {
   }, [LoadComments])
 
   return (
-    <div className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300">
+    <div className='pt-6 pb-6 text-center text-gray-700 dark:text-gray-300'>
       {enableLoadComments && <button onClick={LoadComments}>{t('common:comment')}</button>}
-      <div className="giscus" id={COMMENTS_ID} />
+      <div className='giscus' id={COMMENTS_ID} />
     </div>
   )
 }

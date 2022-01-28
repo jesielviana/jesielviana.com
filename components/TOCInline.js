@@ -26,7 +26,7 @@ const TOCInline = ({
   fromHeading = 1,
   toHeading = 6,
   asDisclosure = false,
-  exclude = '',
+  exclude = ''
 }) => {
   const re = Array.isArray(exclude)
     ? new RegExp('^(' + exclude.join('|') + ')$', 'i')
@@ -49,14 +49,16 @@ const TOCInline = ({
 
   return (
     <>
-      {asDisclosure ? (
-        <details open>
-          <summary className="pt-2 pb-2 ml-6 text-xl font-bold">Table of Contents</summary>
-          <div className="ml-6">{tocList}</div>
-        </details>
-      ) : (
-        tocList
-      )}
+      {asDisclosure
+        ? (
+          <details open>
+            <summary className='pt-2 pb-2 ml-6 text-xl font-bold'>Table of Contents</summary>
+            <div className='ml-6'>{tocList}</div>
+          </details>
+          )
+        : (
+            tocList
+          )}
     </>
   )
 }

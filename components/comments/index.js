@@ -37,7 +37,7 @@ const Comments = ({ frontMatter }) => {
       break
   }
   return (
-    <div id="comment">
+    <div id='comment'>
       {siteMetadata.comment && siteMetadata.comment.provider === 'giscus' && (
         <GiscusComponent mapping={term} />
       )}

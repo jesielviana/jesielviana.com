@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-onchange */
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
@@ -14,6 +13,7 @@ import { useRouter } from 'next/router'
 const LayoutWrapper = ({ children }) => {
   const { t } = useTranslation()
   const router = useRouter()
+  /* eslint-disable no-unused-vars */
   const { locale, locales, defaultLocale } = router
 
   const changeLanguage = (e) => {
@@ -23,31 +23,33 @@ const LayoutWrapper = ({ children }) => {
 
   return (
     <SectionContainer>
-      <div className="flex flex-col justify-between h-screen">
-        <header className="flex items-center justify-between py-10">
+      <div className='flex flex-col justify-between h-screen'>
+        <header className='flex items-center justify-between py-10'>
           <div>
-            <Link href="/" aria-label="Tailwind CSS Blog">
-              <div className="flex items-center justify-between">
-                <div className="mr-3 logo">
-                  <Logo width="50" height="50" />
+            <Link href='/' aria-label='Tailwind CSS Blog'>
+              <div className='flex items-center justify-between'>
+                <div className='mr-3 logo'>
+                  <Logo width='50' height='50' />
                 </div>
-                {typeof siteMetadata.headerTitle[locale] === 'string' ? (
-                  <div className="hidden text-gray-700 dark:text-gray-200 h-6 text-2xl font-semibold sm:block">
-                    {siteMetadata.headerTitle[locale]}
-                  </div>
-                ) : (
-                  siteMetadata.headerTitle[locale]
-                )}
+                {typeof siteMetadata.headerTitle[locale] === 'string'
+                  ? (
+                    <div className='hidden text-gray-700 dark:text-gray-200 h-6 text-2xl font-semibold sm:block'>
+                      {siteMetadata.headerTitle[locale]}
+                    </div>
+                    )
+                  : (
+                      siteMetadata.headerTitle[locale]
+                    )}
               </div>
             </Link>
           </div>
-          <div className="flex items-center text-base leading-5">
-            <div className="hidden sm:block">
+          <div className='flex items-center text-base leading-5'>
+            <div className='hidden sm:block'>
               {headerNavLinks.map((link) => (
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="p-1 text-gray-900 sm:p-4 dark:text-gray-100"
+                  className='p-1 text-gray-900 sm:p-4 dark:text-gray-100'
                 >
                   {t(`headerNavLinks:${link.title.toLowerCase()}`)}
                 </Link>
@@ -57,7 +59,7 @@ const LayoutWrapper = ({ children }) => {
               onChange={changeLanguage}
               defaultValue={locale}
               style={{ textAlignLast: 'center' }}
-              className="text-gray-900 dark:text-gray-100 text-shadow-sm text-sm bg-transparent tracking-wide"
+              className='text-gray-900 dark:text-gray-100 text-shadow-sm text-sm bg-transparent tracking-wide'
             >
               {locales.map((e) => (
                 <option value={e} key={e}>
@@ -69,7 +71,7 @@ const LayoutWrapper = ({ children }) => {
             <MobileNav />
           </div>
         </header>
-        <main className="mb-auto">{children}</main>
+        <main className='mb-auto'>{children}</main>
         <Footer />
       </div>
     </SectionContainer>

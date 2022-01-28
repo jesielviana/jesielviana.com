@@ -6,7 +6,7 @@ import { formatSlug, getAllFilesFrontMatter, getFileBySlug, getFiles } from '@/l
 
 const DEFAULT_LAYOUT = 'PostLayout'
 
-export async function getStaticPaths({ locales, defaultLocale }) {
+export async function getStaticPaths ({ locales, defaultLocale }) {
   const localesPost = locales
     .map((locale) => {
       const otherLocale = locale !== defaultLocale ? locale : ''
@@ -18,15 +18,15 @@ export async function getStaticPaths({ locales, defaultLocale }) {
   return {
     paths: localesPost.map(([p, l]) => ({
       params: {
-        slug: formatSlug(p).split('/'),
+        slug: formatSlug(p).split('/')
       },
-      locale: l,
+      locale: l
     })),
-    fallback: false,
+    fallback: false
   }
 }
 
-export async function getStaticProps({ defaultLocale, locales, locale, params }) {
+export async function getStaticProps ({ defaultLocale, locales, locale, params }) {
   const otherLocale = locale !== defaultLocale ? locale : ''
   const allPosts = await getAllFilesFrontMatter('blog', otherLocale)
   const postIndex = allPosts.findIndex((post) => formatSlug(post.slug) === params.slug.join('/'))
@@ -50,6 +50,7 @@ export async function getStaticProps({ defaultLocale, locales, locale, params })
   await locales.forEach(async (ilocal) => {
     const otherLocale = ilocal !== defaultLocale ? ilocal : ''
     const iAllPosts = await getAllFilesFrontMatter('blog', otherLocale)
+    /* eslint-disable array-callback-return */
     iAllPosts.map((ipost) => {
       if (ipost.slug === post.frontMatter.slug && ipost.slug !== '') availableLocales.push(ilocal)
     })
@@ -58,31 +59,33 @@ export async function getStaticProps({ defaultLocale, locales, locale, params })
   return { props: { post, authorDetails, prev, next, availableLocales } }
 }
 
-export default function Blog({ post, authorDetails, prev, next, availableLocales }) {
+export default function Blog ({ post, authorDetails, prev, next, availableLocales }) {
   const { mdxSource, toc, frontMatter } = post
   return (
     <>
-      {frontMatter.draft !== true ? (
-        <MDXLayoutRenderer
-          layout={frontMatter.layout || DEFAULT_LAYOUT}
-          toc={toc}
-          mdxSource={mdxSource}
-          frontMatter={frontMatter}
-          authorDetails={authorDetails}
-          prev={prev}
-          next={next}
-          availableLocales={availableLocales}
-        />
-      ) : (
-        <div className="mt-24 text-center">
-          <PageTitle>
-            Under Construction{' '}
-            <span role="img" aria-label="roadwork sign">
-              🚧
-            </span>
-          </PageTitle>
-        </div>
-      )}
+      {frontMatter.draft !== true
+        ? (
+          <MDXLayoutRenderer
+            layout={frontMatter.layout || DEFAULT_LAYOUT}
+            toc={toc}
+            mdxSource={mdxSource}
+            frontMatter={frontMatter}
+            authorDetails={authorDetails}
+            prev={prev}
+            next={next}
+            availableLocales={availableLocales}
+          />
+          )
+        : (
+          <div className='mt-24 text-center'>
+            <PageTitle>
+              Under Construction{' '}
+              <span role='img' aria-label='roadwork sign'>
+                🚧
+              </span>
+            </PageTitle>
+          </div>
+          )}
     </>
   )
 }

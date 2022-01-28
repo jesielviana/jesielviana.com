@@ -13,8 +13,8 @@ const generateLinks = (router, availableLocales) =>
         locale === router.defaultLocale
           ? 'canonical'
           : !availableLocales.includes(router.defaultLocale) && locale === availableLocales[0]
-          ? 'canonical'
-          : 'alternate'
+              ? 'canonical'
+              : 'alternate'
       }
       hrefLang={locale}
       href={`${siteMetadata.siteUrl}${locale === router.defaultLocale ? '' : `/${locale}`}${
@@ -56,28 +56,30 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, availableLoca
   return (
     <Head>
       <title>{title}</title>
-      <meta name="robots" content="follow, index" />
-      <meta name="description" content={description} />
-      <meta property="og:url" content={`${siteMetadata.siteUrl}${router.asPath}`} />
-      <meta property="og:type" content={ogType} />
-      <meta property="og:site_name" content={siteMetadata.title[router.locale]} />
-      <meta property="og:description" content={description} />
-      <meta property="og:title" content={title} />
-      {ogImage.constructor.name === 'Array' ? (
-        ogImage.map(({ url }) => <meta property="og:image" content={url} key={url} />)
-      ) : (
-        <meta property="og:image" content={ogImage} key={ogImage} />
-      )}
-      <meta property="og:locale" content={router.locale} />
+      <meta name='robots' content='follow, index' />
+      <meta name='description' content={description} />
+      <meta property='og:url' content={`${siteMetadata.siteUrl}${router.asPath}`} />
+      <meta property='og:type' content={ogType} />
+      <meta property='og:site_name' content={siteMetadata.title[router.locale]} />
+      <meta property='og:description' content={description} />
+      <meta property='og:title' content={title} />
+      {ogImage.constructor.name === 'Array'
+        ? (
+            ogImage.map(({ url }) => <meta property='og:image' content={url} key={url} />)
+          )
+        : (
+          <meta property='og:image' content={ogImage} key={ogImage} />
+          )}
+      <meta property='og:locale' content={router.locale} />
       {availableLocales &&
         availableLocales
           .filter((locale) => locale !== router.locale)
-          .map((locale) => <meta key={locale} property="og:locale:alternate" content={locale} />)}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content={siteMetadata.twitter} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={twImage} />
+          .map((locale) => <meta key={locale} property='og:locale:alternate' content={locale} />)}
+      <meta name='twitter:card' content='summary_large_image' />
+      <meta name='twitter:site' content={siteMetadata.twitter} />
+      <meta name='twitter:title' content={title} />
+      <meta name='twitter:description' content={description} />
+      <meta name='twitter:image' content={twImage} />
       {availableLocales && generateLinks(router, availableLocales)}
     </Head>
   )
@@ -100,7 +102,7 @@ export const PageSEO = ({ title, description, availableLocales }) => {
     <CommonSEO
       title={title}
       description={description}
-      ogType="website"
+      ogType='website'
       ogImage={ogImageUrl}
       twImage={twImageUrl}
       availableLocales={availableLocales}
@@ -117,7 +119,7 @@ export const TagSEO = ({ title, description, availableLocales }) => {
       <CommonSEO
         title={title}
         description={description}
-        ogType="website"
+        ogType='website'
         ogImage={ogImageUrl}
         twImage={twImageUrl}
         availableLocales={availableLocales}
@@ -125,8 +127,8 @@ export const TagSEO = ({ title, description, availableLocales }) => {
       <Head>
         <link
           key={router.locale}
-          rel="alternate"
-          type="application/rss+xml"
+          rel='alternate'
+          type='application/rss+xml'
           title={`${description} - RSS feed`}
           href={`${siteMetadata.siteUrl}${router.asPath}/feed${
             router.locale === router.defaultLocale ? '' : `.${router.locale}`
@@ -145,22 +147,22 @@ export const BlogSEO = ({
   lastmod,
   url,
   availableLocales,
-  images = [],
+  images = []
 }) => {
   const router = useRouter()
   const publishedAt = new Date(date).toISOString()
   const modifiedAt = new Date(lastmod || date).toISOString()
-  let imagesArr =
+  const imagesArr =
     images.length === 0
       ? [siteMetadata.socialBanner]
       : typeof images === 'string'
-      ? [images]
-      : images
+        ? [images]
+        : images
 
   const featuredImages = imagesArr.map((img) => {
     return {
       '@type': 'ImageObject',
-      url: `${siteMetadata.siteUrl}${img}`,
+      url: `${siteMetadata.siteUrl}${img}`
     }
   })
 
@@ -169,13 +171,13 @@ export const BlogSEO = ({
     authorList = authorDetails.map((author) => {
       return {
         '@type': 'Person',
-        name: author.name,
+        name: author.name
       }
     })
   } else {
     authorList = {
       '@type': 'Person',
-      name: siteMetadata.author,
+      name: siteMetadata.author
     }
   }
 
@@ -184,7 +186,7 @@ export const BlogSEO = ({
     '@type': 'Article',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': url,
+      '@id': url
     },
     headline: title,
     image: featuredImages,
@@ -196,10 +198,10 @@ export const BlogSEO = ({
       name: siteMetadata.author,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteMetadata.siteUrl}${siteMetadata.siteLogo}`,
-      },
+        url: `${siteMetadata.siteUrl}${siteMetadata.siteLogo}`
+      }
     },
-    description: summary,
+    description: summary
   }
 
   const twImageUrl = featuredImages[0].url
@@ -209,7 +211,7 @@ export const BlogSEO = ({
       <CommonSEO
         title={title}
         description={summary}
-        ogType="article"
+        ogType='article'
         ogImage={featuredImages}
         twImage={twImageUrl}
         availableLocales={availableLocales}
@@ -236,13 +238,13 @@ export const BlogSEO = ({
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={summary} />
         <meta name="twitter:image" content={featuredImages[0].url} /> */}
-        {date && <meta property="article:published_time" content={publishedAt} />}
-        {lastmod && <meta property="article:modified_time" content={modifiedAt} />}
+        {date && <meta property='article:published_time' content={publishedAt} />}
+        {lastmod && <meta property='article:modified_time' content={modifiedAt} />}
         {availableLocales && generateLinks(router, availableLocales)}
         <script
-          type="application/ld+json"
+          type='application/ld+json'
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData, null, 2),
+            __html: JSON.stringify(structuredData, null, 2)
           }}
         />
       </Head>

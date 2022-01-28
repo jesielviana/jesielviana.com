@@ -6,7 +6,7 @@ import { POSTS_PER_PAGE } from '../../blog'
 
 import useTranslation from 'next-translate/useTranslation'
 
-export async function getStaticPaths({ locales, defaultLocale }) {
+export async function getStaticPaths ({ locales, defaultLocale }) {
   const paths = (
     await Promise.all(
       locales.map(async (locale) => {
@@ -21,20 +21,20 @@ export async function getStaticPaths({ locales, defaultLocale }) {
   return {
     paths: paths.map(([page, locale]) => ({
       params: {
-        page,
+        page
       },
-      locale,
+      locale
     })),
-    fallback: false,
+    fallback: false
   }
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps (context) {
   const {
     params: { page },
     defaultLocale,
     locales,
-    locale,
+    locale
   } = context
   const otherLocale = locale !== defaultLocale ? locale : ''
   const posts = await getAllFilesFrontMatter('blog', otherLocale)
@@ -45,7 +45,7 @@ export async function getStaticProps(context) {
   )
   const pagination = {
     currentPage: pageNumber,
-    totalPages: Math.ceil(posts.length / POSTS_PER_PAGE),
+    totalPages: Math.ceil(posts.length / POSTS_PER_PAGE)
   }
 
   // Checking if available in other locale for SEO
@@ -57,8 +57,7 @@ export async function getStaticProps(context) {
       if (
         pageNumber <= Math.ceil(iAllPosts.length / POSTS_PER_PAGE) &&
         !availableLocales.includes(ilocal)
-      )
-        availableLocales.push(ilocal)
+      ) { availableLocales.push(ilocal) }
     })
   })
 
@@ -68,17 +67,17 @@ export async function getStaticProps(context) {
       initialDisplayPosts,
       pagination,
       locale,
-      availableLocales,
-    },
+      availableLocales
+    }
   }
 }
 
-export default function PostPage({
+export default function PostPage ({
   posts,
   initialDisplayPosts,
   pagination,
   locale,
-  availableLocales,
+  availableLocales
 }) {
   const { t } = useTranslation()
   return (
