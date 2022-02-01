@@ -11,7 +11,7 @@ layout: PostSimple
 
 ### Introdução
 
-[Node.js](https://nodejs.org/pt-br/) é uma ótima ferramenta para construção APIs REST, sendo bastante utilizada no mundo todo, desde as grandes multinacionais até startups. Assim, como qualquer framework e plataformas de desenvolvimento de software existem um conjunto de recomendações e padrões a serem utilizados, então o objetivo deste artigo é descrever um conjunto de **boas práticas para construção de APIs Node.js com Express**.
+[Node.js](https://nodejs.org/pt-br/) é uma ótima ferramenta para construção de [API](https://pt.wikipedia.org/wiki/Interface_de_programa%C3%A7%C3%A3o_de_aplica%C3%A7%C3%B5es) [REST](https://pt.wikipedia.org/wiki/REST), sendo [bastante utilizada no mundo todo](https://insights.stackoverflow.com/survey/2021#technology-most-popular-technologies), desde as grandes multinacionais até startups. Assim, como qualquer framework e plataformas de desenvolvimento de software existem um conjunto de recomendações e padrões a serem utilizados, então o objetivo deste artigo é descrever um conjunto de **boas práticas para construção de APIs Node.js com Express**.
 
 > A utilização de padrões e boas práticas no desenvolvimento de software evitam a duplicidade de códigos, facilita a alteração e evolução do software, aumenta a legibilidade do código, etc.
 
@@ -23,7 +23,10 @@ O conjunto de boas práticas que descrevo abaixo é resultado da minha experiên
 
 Baseada no [Princípio da Separação de Conceitos](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html), organize a aplicação em três camadas: API routes, Services e Models, conforme a figura abaixo.
 
-![Arquitetura em camada Node.js](/static/images/posts/nodejs-layers.png)
+<div class="flex justify-center">
+<Image alt="Arquitetura em camada Node.js" src="/static/images/posts/nodejs-layers.png" width={299} height={331} />
+</div>
+
 
 - `API routes` - camada responsável pela definição dos _endpoints_ da _API_ e tratamento das requisições e respostas da aplicação.
 - `Services` - camada responsável pelas regras de negócios e por fazer a integração entre a camada de dados e a camada de API/Rotas.
@@ -217,20 +220,27 @@ Resumindo este item:
 - Não passe os objetos `req` e `res` para a camada/arquivo de `services`
 - A camada de `services` deve lidar exclusiavamente com as regras e negócios e integração com os `models`.
 
-### 4 - Use os métodos HTTP de forma semântica e substantivo para identificação de rotas
+### 4 - Identificação dos endpoints e operações dos recursos da API
 
-Para cada tipo de operação que podemos realizar por meio de uma API há um método HTTP adequado, com valor semântico. USE-OS! Para as quatro operações básicas de um CRUD, criar, consultar, alterar e remover devemos utilizar os métodos POST, GET, PUT/PATCH e DELETE respectivamente, já que cada um desse métodos são semanticamente correspondentes a cada uma dessas operações. Por exemplo:
+Identifique os recursos da API usando substantivos no plural. Nas aplicações REST, os recursos são algo que pode ser manipulado e possui uma representação de estado. Por exemplo, em uma aplicação educacional, existem os seguintes recursos: aluno, curso, professor, etc.
 
-- `POST /courses` para criar um novo curso,
-- `GET /courses` para consultar todos os cursos,
-- `GET /courses/:id` para consultar um curso específico,
-- `PATCH /courses/:id` or `PUT /courses/:id` para alterar um curso já cadastrado,
-- `DELETE /courses/:id` para remover um curso já cadastrado.
+No caso da aplicação educacional, você deve definir os endpoints de seus recursos como:
 
-> OBS: PUT e PATCH são usados para alteração de dados. PUT é semanticamente indicado para alteração da entidade completa, ou seja, sobrescrita de todos os dados da entidade/recurso a ser alterado. Já o PATCH para uma atualização parcial, quando se deseja sobrescrever um atribudo específico da entidade/recurso
-> [https://tools.ietf.org/html/rfc5789](PATCH) > [https://tools.ietf.org/html/rfc2616#section-9.6](PUT).
+- `/courses` - endpoint para manipular todas as operações de cursos
+- `/students` - endpoint para manipular todas as operações de alunos
+- `/teachers` -endpoint para manipular todas as operações de professores
 
-Como prática recomendada, suas rotas de API (**endpoints**) devem utilizar substantivos no plural como identificadores dos recursos, como no exemplo acima, usamos o identicador `courses` como rota (**endpoints**) para manipulação de cursos.
+E, como identificar o tipo de operações da requisição? Use os métodos semânticos HTTP para cada tipo de operação. Abaixo temos um exemplo de como organizar rotas de API para cursos:
+
+- `GET /courses` - retorna todos os cursos
+- `POST /courses` - adiciona novo curso
+- `PUT /courses/:id` - atualiza um curso específico (com base em seu id)
+- `DELETE /courses/:id` - remove um curso específico (com base em seu id)
+- `GET /courses/:id` - retorna um curso específico (com base em seu id)
+
+A identificação de endpoints dos recursos de uma API usando substantivos no plurl e a definição de operações pelo método HTTP com base em sua semântica é um padrão, mantenha-o!
+
+Veja mais sobre métodos HTTP em [https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
 
 ### 5 - Use os códigos de status do HTTP de forma correta
 

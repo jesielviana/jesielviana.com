@@ -11,7 +11,7 @@ layout: PostSimple
 
 ### Introduction
 
-Node.js is a good tool for building REST APIs. It is one of the [most popular](https://insights.stackoverflow.com/survey/2021#technology-most-popular-technologies) techs among devs. **If you are a Node.js developer or are learning Node.js to build REST APIs, this post is for you**.
+Node.js is a good tool for building [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) [API](https://en.wikipedia.org/wiki/API). It is one of the [most popular](https://insights.stackoverflow.com/survey/2021#technology-most-popular-technologies) techs among devs. **If you are a Node.js developer or are learning Node.js to build REST APIs, this post is for you**.
 
 This post describes a set of best practices for building [Node.js](https://nodejs.org/pt-br/) APIs with the [Express](https://expressjs.com) framework.
 
@@ -228,7 +228,30 @@ Summarizing this item:
 - Do not pass `req` and `res` objects to the services layer;
 - The services layer must handle only business rules and integration with models.
 
-## 4 - Identification of resources and operations
+## 4 - Identification of the API resource endpoints and operations
+
+Identify your resources using a plural noun. In the REST applications, resources are something that can be manipulated and have a state representational.   For example, in the education application, there are the following resources: student, course, teacher, etc. 
+
+In the case of the education application, you must define the endpoints of its resources as:
+
+- `/courses` - endpoint for manipulating all operations of courses
+- `/students` - endpoint for manipulating all operations of students
+- `/teachers` -endpoint for manipulating all operations of teachers
+
+And, how can identify the type of request operations? Use the HTTP semantic methods for each operation type. Below have an example of how to organize API routes for courses:
+
+- `GET /courses` - return all courses
+- `POST /courses` - add new course
+- `PUT /courses/:id` - update a specific course (based on its id)
+- `DELETE /courses/:id` - remove a specific course (based on its id)
+- `GET /courses/:id` - return a specific course (based on its id)
+
+Identification of resource endpoints using plural nouns and defining operations by HTTP method based on your semantic is a standard, keep it!
+
+Learn more about HTTP methods at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
+
+
+
 
 <span role="img" aria-label="roadwork sign">
   Under Construction... 🚧
