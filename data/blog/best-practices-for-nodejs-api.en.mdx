@@ -250,7 +250,28 @@ Identification of resource endpoints using plural nouns and defining operations 
 
 Learn more about HTTP methods at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
 
+### 5 - Use HTTP status codes correctly
 
+The HTTP protocol has a set of response status codes that indicate if the request was successful or if an error occurred. Return codes are grouped by class as listed below:
+
+- **2xx** - codes that indicate the success of the request, the two most used are:
+  - `200 Ok` - Indicates successful request (for any type of request).
+  - `201 Ok` - Indicates success for resource creation requests (used as success return for POST requests).
+- **3xx** - codes that indicate that the resource has been moved (little used),
+- **4xx** - codes that indicate errors caused by the client
+  - `400 Bad Request` – indicates that some data sent in the request is incorrect.
+  - `401 Unauthorized` – indicates that the client is not authorized to access the resource, usually caused by a lack of authentication.
+  - `403 Forbidden` – indicates that the user is known (is authenticated) but not allowed to access that resource.
+  - `404 Not Found` – indicates that the requested resource does not exist.
+- **5xx** - indicates some unexpected error on the server-side, handle it for not displayed directly to the client.
+
+Once in a while, we come across an API response that returns status code 200 (which indicates success in the request), and in the body of the response comes an error message or a flag (true or false) indicating that an error has occurred... It looks like success, but it's an error.
+
+Meet the main HTTP status codes to avoid returning HTTP status codes that do not match the reality of the request.
+
+Use the HTTP response code based on the status of the real status of the request.
+
+### 6 - Create integration tests for your API routes
 
 
 <span role="img" aria-label="roadwork sign">
