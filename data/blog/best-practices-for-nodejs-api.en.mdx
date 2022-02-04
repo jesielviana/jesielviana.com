@@ -1,6 +1,6 @@
 ---
 title: '9 best practices for building Node.js API'
-date: 2022-01-26
+date: 2022-02-04
 tags: ['nodejs', 'api', 'architecture']
 draft: false
 summary: 'The use of patterns and best practices in software development avoids duplication of code, facilitates software change and evolution, increases code readability, etc.'
@@ -273,7 +273,174 @@ Use the HTTP response code based on the status of the real status of the request
 
 ### 6 - Create integration tests for your API routes
 
+An automated test is fundamental to guarantee the reliability of the software. Automated tests are organized into three categories:
+- Unit test - tests each function/method in isolation, makes a lot of use of mocks to isolate the test;
+- Integration test - tests the functionality as a whole. Don't use mocks;
+- End-to-end test - tests the application as if it were the end-user, via the interface. It's an expensive and slow test.
 
-<span role="img" aria-label="roadwork sign">
-  Under Construction... 🚧
-</span>
+For the development of APIs, **create integration tests!** Integration tests are relatively fast. Are easier to write than other tests and provides reliable quality guarantees.
+
+Integration tests help you ensure that the different parts of your software can work together. The app is tested as a whole from the API route to the database.
+
+In the Node.js environment, is easy to run integration tests with Jest and Supertest. Both are widely used to create and run integration tests. The code below presents an integration test example for adding a new course to API.
+
+```js:test/api/course.test.js
+const request = require('supertest')
+const config = require('../../../src/config')
+const app = require('../../../src/app')
+const { sequelize } = require('../../../src/models')
+
+const API_COURSES = `${config.API_BASE}/courses`
+
+const DEFAULT_COURSE = {
+  name: 'Curso 1',
+  ch: 1500
+}
+
+beforeAll(async () => {
+  await sequelize.sync({ force: true }) // conecta com o banco de testes
+  await request(app).post(API_COURSES).send(DEFAULT_COURSE) // insere um curso no banco
+})
+
+afterAll(async () => {
+  await sequelize.close() // fecha a conexão com o banco
+})
+
+describe('Testando a rota de curso', () => {
+  test('Deve adicionar um novo curso com sucesso!', async () => {
+    const newCourse = {
+      name: 'Curso 2',
+      ch: 3020
+    }
+    const response = await request(app).post(API_COURSES).send(newCourse)
+    expect(response.statusCode).toBe(201)
+  })
+})
+
+```
+
+In the example above, you see an integration test for adding a new course with success. The test is performed from the HTTP request in the course route, passing the data of the new course to the insertion in the database, and verification of the HTTP response. The full example is in this [GitHub repository](https://github.com/jesielviana/nodejs-express-sequelize).
+
+
+### 7 - Take care of your API security
+
+When we talk about web security, the use of HTTPS (TLS/SSL) is fundamental and mandatory. ALWAYS USE HTTPS!
+
+When using dependencies, check the origin, updates, possible security flaws, etc. For that, I recommend using [Snyk Open Source Security Management](https://snyk.io/product/open-source-security-management/), a tool that connects with your GitHub repository and checks for possible security breaches in all dependencies of your Node.js application.
+
+In applications with Express.js, use [Helmet](https://helmetjs.github.io/). The helmet is a library for Express.js that adds several middlewares, responsible for setting some headers in HTTP messages, making your application more secure.
+
+Start by taking care of your application's security from the beginning of development, no matter if it's an application just for academic purposes.
+
+### 8 - Create configuration files for each environment
+
+Create configuration files (with database configs, external API addresses, security keys)  for each environment (development, test, production). And load specific file according to each environment in an automated way. Here's an example:
+
+Index.js file, which loads the settings according to the environment.
+
+```js:config/index.js
+const config = require(`./env/${process.env.NODE_ENV || 'development'}.js`)
+module.exports = config
+```
+
+Arquivos de cada ambiente
+
+```shell
+src/
+  ├── config/
+      ├── index.js
+      ├── env
+          ├── development.js
+          ├── test.js
+          ├── production.js
+```
+
+Each file (development, test, production) has configuration information specific to that environment. As a result, there is no need to make manual changes to the settings for each environment.
+
+You can also use `.env` files for each environment instead of `js` files.
+
+### 9 - Use Integration and Continuous Delivery
+
+[Continuous Integration (CI)](https://aws.amazon.com/en/devops/continuous-integration) is a software development practice where developers regularly merge their code changes into a central repository and run automated tests.
+
+[Continuous Delivery  (CD)](https://www.atlassian.com/br/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment) is an extension of continuous integration, that it automatically deploys the application to a staging environment after running the build process and running all automated tests successfully.
+
+It is important to highlight that for the use of Integration and Continuous Delivery it is essential that your application uses automated tests, mainly integration tests.
+
+Config and using the Integration and Continuous Delivery features have been quite simple in projects stored on GitHub and Gitlab.
+Here is an example of configuration files for GitHub Actions (see details below the example):
+
+```yaml
+name: Node.js CI and DI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: school_test
+          POSTGRES_PORT: 5432
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+        env:
+          DATABASE_HOST: localhost
+          DATABASE_PORT: 5432
+          DATABASE: school_test
+          DATABASE_USERNAME: test
+          DATABASE_PASSWORD: test
+          # DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: 'app-name' #Must be unique in Heroku
+          heroku_email: 'email-user-heroku@email.com'
+```
+
+The above file is configured to execute the following steps in sequence whenever there is a `push` or `pull request` on the `main` branch of the project:
+
+1. Use an Ubuntu machine;
+1. Install Node.js 14.x;
+1. Install and configure a Postgres database instance;
+1. Build the project;
+1. Run the tests;
+1. Deploy the project on Heroku.
+
+**NOTE**: If any of the steps fails, the flow is interrupted and the next steps are not executed.
+
+> So which of these practices do you already use? which ones are new to you? Comment, suggest, talk to me!
+
+The complete code used in this post is available at [GitHub repository](https://github.com/jesielviana/nodejs-express-sequelize).
+
+> Did you like the tips? Which of these best practices did you already know? What are the best practices you use and recommend? 
+
+**Others best practices references**
+
+- [10 Best Practices for Writing Node.js REST APIs | @RisingStack](https://blog.risingstack.com/10-best-practices-for-writing-node-js-rest-apis/)
+- [Best practices for REST API design - Stack Overflow Blog](https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/)
+- [Bulletproof node.js project architecture 🛡️ - DEV Community](https://dev.to/santypk4/bulletproof-node-js-project-architecture-4epf)
+- [GitHub - goldbergyoni/nodebestpractices: The Node.js best practices list (March 2021)](https://github.com/goldbergyoni/nodebestpractices#1-project-structure-practices)

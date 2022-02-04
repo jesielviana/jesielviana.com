@@ -263,13 +263,16 @@ Para evitar confusões e más práticas retornando códigos de status do HTTP qu
 
 ### 6 - Crie testes de integração para suas rotas de API
 
-Teste automatizado criado pelos desenvolvedores é algum essencial no desenvolvimento de software. Esses testes são dividos em três catagorias: Teste de Unidade, Teste de Ingegração e Teste de Inteface (end-to-end).
+Teste automatizado é fundamental para garantir a confiabilidade do software. Os testes automatizados são organizados em três categorias:
+- Teste unitário - testa cada função/método isoladamente, faz muito uso de mocks para isolar o teste;
+- Teste de integração - testa a funcionalidade como um todo. Não usa mocks;
+- Teste end-to-end - testa a aplicação como se fosse o usuário final, através da interface. É um teste caro e lento.
 
-Para o desenvolviemtno de APIs é recomendado a construção de testes de unidade e testes de integração, sendo este o mais completo.
+Para o desenvolvimento de APIs, crie testes de integração! Os testes de integração são relativamente rápidos. São mais fáceis de escrever do que outros testes e fornecem garantias de qualidade confiáveis.
 
-O teste de integração em APIs tem características do testes de caixa preta, que é a forma de testar uma funcionalidade de um aplicativo sem o conhecimento de suas estruturas internas ou funcionamento. Portanto, na criação dos testes de integração o sistema/API é testado como um todo sem a criação de mocks. Nenhum mock é criado!
+Os testes de integração ajudam a garantir que as diferentes partes do seu software funcionem juntas. O aplicativo é testado como um todo desde a rota da API até o banco de dados.
 
-No ambiente Node.js com Express são bastantes utilizados o Jest e Supertest para a criação e execução de testes de integração. O código abaixo apresenta um exemplo de teste de integração para a criação de curso.
+No ambiente Node.js, é fácil executar testes de integração com Jest e Supertest. Ambos são amplamente utilizados para criar e executar testes de integração. O código abaixo apresenta um exemplo de teste de integração para adicionar um novo curso à API.
 
 ```js:test/api/curso.test.js
 const request = require('supertest')
@@ -312,13 +315,15 @@ No exemplo acima é realizado um teste completo de criação de um novo curso, d
 
 Quando falamos de segurança na Web o uso de HTTPS (TLS/SSL) é fundamental e obrigatório. USE SEMPRE HTTPS!
 
-Quando for utilizar módulos/depedências do NPM verifique a origem, atualizações, possíveis falhas de segurança, etc. Para isso, recomendo a utilização do [Snyk Open Source Security Management](https://snyk.io/product/open-source-security-management/), uma ferramenta que conecta com seu repositório do GitHub e verifica posséveis brechas de seguranças de todas as dependências de sua aplicação Node.js.
+Quando for utilizar módulos/dependências do NPM verifique a origem, atualizações, possíveis falhas de segurança, etc. Para isso, recomendo a utilização do [Snyk Open Source Security Management](https://snyk.io/product/open-source-security-management/), uma ferramenta que conecta com seu repositório do GitHub e verifica possíveis brechas de seguranças de todas as dependências de sua aplicação Node.js.
 
-Em aplicações com Express.js, use o [Helmet](https://helmetjs.github.io/). Helmet é uma biblioteca para Express.js que agrega vários middlewares, responsáveis por setar alguns headers nas mensagens HTTP, tornando sua aplicação mais segura.
+Em aplicações com Express.js, use o [Helmet](https://helmetjs.github.io/). Helmet é uma biblioteca para Express.js que agrega vários middlewares, responsáveis por adicionar alguns headers nas mensagens HTTP, tornando sua aplicação mais segura.
+
+Comece cuidando da segurança da sua aplicação desde o inicio do desenvolvimento, não importa se uma aplicação apenas para fins acadêmicos.
 
 ### 8 - Crie arquivos de configuração para cada ambiente
 
-Crie arquivos de configurações, com dados de banco de dados, endereços de APIs externas e etc, para cada ambiente (development, test, production) e carregue suas informações de acordo com cada ambiente de forma automatizada. Segue um exemplo:
+Crie arquivos de configurações, com configurações de banco de dados, endereços de APIs externas e etc, para cada ambiente (development, test, production) e carregue suas informações de acordo com cada ambiente de forma automatizada. Segue um exemplo:
 
 Arquivo index.js, que carrega as configurações de acordo com o ambiente.
 
@@ -329,15 +334,19 @@ module.exports = config
 
 Arquivos de cada ambiente
 
-```
+```shell
 src/
   ├── config/
-      ├── development.js
-      ├── test.js
-      ├── production.js
+      ├── index.js
+      ├── env
+          ├── development.js
+          ├── test.js
+          ├── production.js
 ```
 
-Dentro de cada arquivo (development, test, production) são colocadas as informações de configuração específicas daquele ambiente. Pode-se usar também os arquivos `.env` para cada ambiente ao invés de arquivos `js` como no exemplo acima.
+Dentro de cada arquivo (development, test, production) são colocadas as informações de configuração específicas daquele ambiente. Com isso, não há a necessidade fazer alterações manuais nas configurações de cada ambiente.
+
+> NOTA: Pode-se usar também os arquivos `.env` para cada ambiente ao invés de arquivos `js`.
 
 ### 9 - Utilize Integração e Entrega Contínua
 
