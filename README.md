@@ -10,9 +10,9 @@
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/GautierArcin/i18n-tailwind-nextjs-starter-blog/tree/demo/next-translate)
 
 Unofficial i18n fork of the excellent [Tailwind CSS blogging starter template](https://github.com/timlrx/tailwind-nextjs-starter-blog) implementing sub-path i18n routing & `next-translate`.
-I try to maintin it as up to date as possible with main repo.
+I try to maintain it as up to date as possible with the main repo.
 
-Check out the documentation below to get started (or on main repo) to get started.
+Check out the documentation below (or on main repo) to get started.
 
 Feel free to contribute if you see any features missing.
 
@@ -25,27 +25,27 @@ Using the template? Feel free to create a PR and add your blog to this list.
 
 ## Motivation
 
-I wanted found [Tailwind CSS blogging starter template](https://github.com/timlrx/tailwind-nextjs-starter-blog) and was quite happy with it. Only problem is that it didn't supported multiple languages and I wanted to create a blog in both English and French.
+I found [Tailwind CSS blogging starter template](https://github.com/timlrx/tailwind-nextjs-starter-blog) and was quite happy with it. Only problem is that it didn't support multiple languages and I wanted to create a blog in both English and French.
 
 ## Features
 
-All of the main repo Features &
+All of the main repo Features
 
 - Sub-path routing with locale(s)
 
-- Multi-langage post support
+- Multi-language post support
 
 - Optimized & flexible multi-locale SEO
 
 ## Quick Start Guide
 
-Please follow [main repo](https://github.com/timlrx/tailwind-nextjs-starter-blog)'s' **Quick Start Guide** section for general instructions. This section will only cover what to do to add your own(s) locale(s) to the site.
+Please follow [main repo](https://github.com/timlrx/tailwind-nextjs-starter-blog)'s' **Quick Start Guide** section for general instructions. This section will only cover what to do to add your own(s) locale(s) to the website.
 
 This repository is furnished with `en` as defaultLocale and with `fr` as additional locale. You can provide as many locales as you want, you'll just add the corresponding translation.
 
-If you add a new translations in `locales` folder, please PR this repo. That might help next users / forks.
+If you add a new translation in `locales` folder, please PR this repo. That might help next users / forks.
 
-1. Checkout the `demo/next-translate` branch on this repo. `Master` is kept up to date with [`timlrx/tailwind-nextjs-starter-blog`](https://github.com/timlrx/tailwind-nextjs-starter-blog)
+1. Check out the `demo/next-translate` branch on this repo. `Master` is kept up to date with [`timlrx/tailwind-nextjs-starter-blog`](https://github.com/timlrx/tailwind-nextjs-starter-blog)
 2. Add your own locales and default locale in `i18n.json`
 3. Add a folder for every locale in the `locales` folder.
 4. For each `.json` files (`404.json`, `common.json`, `headerNavLink.json`, ...) in your `/locales/[locale]` folder, provide a translation
@@ -55,7 +55,7 @@ If you add a new translations in `locales` folder, please PR this repo. That mig
 
 ## Post
 
-To have localized version for post, please follow this naming convention:
+To localize the version for your post, please follow this naming convention:
 
 `myPost.md` : default locale
 
