@@ -34,7 +34,7 @@ export default function Home ({ posts, locale, availableLocales }) {
           </h1>
           <h2 className='text-lg prose text-gray-600 dark:text-gray-400'>
             {t('common:summary')}
-            <Link href='https:/webdev.jesielviana.com'>{t('common:webdevebook')}</Link>
+            <Link href='webdev.jesielviana.com'>{t('common:webdevebook')}</Link>
             {`. ${t('common:goodRead')}`}
           </h2>
         </div>
