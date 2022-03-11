@@ -34,9 +34,9 @@ export default function Home ({ posts, locale, availableLocales }) {
           </h1>
           <h2 className='text-lg prose text-gray-600 dark:text-gray-400'>
             {t('common:summary')}
-            <Link href='https:/webdev.jesielviana.com'>
+            <a href='https://webdev.jesielviana.com' rel='noreferrer' target='_blank'>
               {t('common:webdevebook')}
-            </Link>
+            </a>
             {`. ${t('common:goodRead')}`}
           </h2>
         </div>
