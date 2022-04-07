@@ -1,0 +1,55 @@
+---
+title: 'Diferença entre parâmetro e argumento'
+date: '2020-01-27'
+tags: ['programação', 'javascript']
+draft: false
+summary: 'Entenda a diferença conceitual entre parâmetro e argumento'
+authors: ['default']
+---
+
+É comum na área da programação a utilização dos termos **"parâmetro"** e **"argumento"** como sinônimos, onde os dois termos são utilizados para identificar o valor que é passado para uma função/método ou para identificar uma variável de entrada em uma função/método.
+
+> Semânticamente, esses termos tem **significados diferentes**:
+
+### Parâmetros
+
+Parâmetros referem-se as variáveis (geralmente definida dentro dos parênteses da função/método) que irão receber os valores de entrada em uma função/método, conforme o exemplo abaixo, onde **_"peso"_** e **_"altura"_** dentro dos parênteses são parâmentros da função **_calculaIMC_**.
+
+```js
+function calculaIMC(peso, altura) {
+  // calcula IMC
+}
+```
+
+O termo parâmetro deve ser utilizado nas definições de funções/métodos, como visto no exemplo acima.
+
+### Argumentos
+
+Argumentos são os valores atuais passados para uma função/método no momento em que ela é chamada, ou seja, se você define uma função que recebe um parâmetro, quando ela for chamada deve-se passsar um valor (argumento) para o parâmetro definido na função. Vamos ver um exemplo para a chamada da função **_calculaIMC_** definida acima.
+
+```js
+calculaIMC(65, 1.75)
+```
+
+No exemplo acima, estamos chamando a função calculaIMC passando os valores 65 e 1.75 como argumentos. Dessa forma, o tempo "argumento" é utilizado somente na chamada da função.
+
+É importante destacar que o argumento pode ser um valor literal, como o exemplo acima (65 e 1.75), como também pode ser um valor armazenado em outra variável, como o exemplo abaixo:
+
+```js
+const meuPeso = 75
+const minhaAltura = 1.8
+
+calculaIMC(meuPeso, minhaAltura)
+```
+
+No exemplo acima, a função **_calculaIMC_** recebe como argumentos as variáveis **_meuPeso_** e **_minhaAltura_**, que armazenam os valores 75 e 1.8 respectivamente.
+
+### Conclusão
+
+Em resumo, use o termo **"parâmetro"** para se referir as **variáveis** que estão nas definições das funções/métodos e o termo **"argumento"** quando estiver se referindo aos **valores** passados na chamada de uma função/método.
+
+> A utilização dos termos "parâmetro" e "argumento" como sinônimos talvez não tenha impacto direto no seu aprendizado de programação, mas a utilização desses **termos de forma correta**, de acordo com a semântica de cada um, deixa a **comunicação mais clara** e facilita na hora de tirar dúvidas com os mais experientes ou ajudar a solucionar problemas dos iniciantes.
+
+Eu espero que você tenha entendido a diferença entre os dois termos e em caso de dúvidas ou sugestões escreva nos comentários.
+
+Até Mais 😀
