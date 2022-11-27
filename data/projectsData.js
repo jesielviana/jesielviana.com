@@ -5,7 +5,7 @@ const projectsData = {
       description:
         'Free eBook on web development, from basics (HTTP, HTML, CSS, and Javascript) to advanced (API, Node.js, Integrations, etc).',
       imgSrc: '/static/images/projects/book.png',
-      href: 'https://webdev.jesielviana.com'
+      href: 'https://jesielviana.gitbook.io/webdev'
     },
     {
       title: 'Mambee',
@@ -35,7 +35,7 @@ const projectsData = {
       description:
         'eBook gratuito sobre desenvolvimento web, do básico (HTTP, HTML, CSS e Javascritp) ao avançado (API, Node.js, Integrações, etc).',
       imgSrc: '/static/images/projects/book.png',
-      href: 'https://webdev.jesielviana.com'
+      href: 'https://jesielviana.gitbook.io/webdev'
     },
     {
       title: 'Mambee',
