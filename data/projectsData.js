@@ -19,7 +19,7 @@ const projectsData = {
       description:
         'PBL Planner Online is a collaborative platform for teaching planning in the PBL (Problem-Based Learning) approach.',
       imgSrc: '/static/images/projects/pblplanner.png',
-      href: 'https://pblplanneronline.jesielviana.com'
+      href: 'https://pblplanner.netlify.app'
     },
     {
       title: 'Podcast B-a-bá do Dev',
