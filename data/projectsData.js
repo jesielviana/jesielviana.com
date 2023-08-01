@@ -1,11 +1,11 @@
 const projectsData = {
   en: [
     {
-      title: 'Web Dev Book',
+      title: 'Guia Web book',
       description:
         'Free eBook on web development, from basics (HTTP, HTML, CSS, and Javascript) to advanced (API, Node.js, Integrations, etc).',
       imgSrc: '/static/images/projects/book.png',
-      href: 'https://jesielviana.gitbook.io/webdev'
+      href: 'https://www.guiaweb.dev.br/'
     },
     {
       title: 'Mambee',
@@ -31,11 +31,11 @@ const projectsData = {
   ],
   'pt-Br': [
     {
-      title: 'Web Dev Book',
+      title: 'eBook Guia Web',
       description:
         'eBook gratuito sobre desenvolvimento web, do básico (HTTP, HTML, CSS e Javascritp) ao avançado (API, Node.js, Integrações, etc).',
       imgSrc: '/static/images/projects/book.png',
-      href: 'https://jesielviana.gitbook.io/webdev'
+      href: 'https://www.guiaweb.dev.br/'
     },
     {
       title: 'Mambee',
