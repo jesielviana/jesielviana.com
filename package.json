@@ -2,6 +2,9 @@
   "name": "tailwind-nextjs-starter-blog",
   "version": "1.1.2",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "next-remote-watch ./data",
     "dev": "next dev",
