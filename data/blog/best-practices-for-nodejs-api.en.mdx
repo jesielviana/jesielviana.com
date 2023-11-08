@@ -27,7 +27,12 @@ I have experience building Node.js applications and teaching web development. An
 Use the principle of [separation of concerns](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html). Segregating an application code into three-tier architecture: API routes, Services, and Models.
 
 <div class="flex justify-center">
-<Image alt="Node.js three-tier architecture" src="/static/images/posts/nodejs-layers.png" width={299} height={331} />
+  <Image
+    alt="Node.js three-tier architecture"
+    src="/static/images/posts/nodejs-layers.png"
+    width={299}
+    height={331}
+  />
 </div>
 
 - `API routes` - contains all the API routes of the app. It is responsible too for handling the HTTP requests and HTTP responses.
@@ -230,7 +235,7 @@ Summarizing this item:
 
 ## 4 - Identification of the API resource endpoints and operations
 
-Identify your resources using a plural noun. In the REST applications, resources are something that can be manipulated and have a state representational.   For example, in the education application, there are the following resources: student, course, teacher, etc. 
+Identify your resources using a plural noun. In the REST applications, resources are something that can be manipulated and have a state representational. For example, in the education application, there are the following resources: student, course, teacher, etc.
 
 In the case of the education application, you must define the endpoints of its resources as:
 
@@ -274,6 +279,7 @@ Use the HTTP response code based on the status of the real status of the request
 ### 6 - Create integration tests for your API routes
 
 An automated test is fundamental to guarantee the reliability of the software. Automated tests are organized into three categories:
+
 - Unit test - tests each function/method in isolation, makes a lot of use of mocks to isolate the test;
 - Integration test - tests the functionality as a whole. Don't use mocks;
 - End-to-end test - tests the application as if it were the end-user, via the interface. It's an expensive and slow test.
@@ -321,7 +327,6 @@ describe('Testando a rota de curso', () => {
 
 In the example above, you see an integration test for adding a new course with success. The test is performed from the HTTP request in the course route, passing the data of the new course to the insertion in the database, and verification of the HTTP response. The full example is in this [GitHub repository](https://github.com/jesielviana/nodejs-express-sequelize).
 
-
 ### 7 - Take care of your API security
 
 When we talk about web security, the use of HTTPS (TLS/SSL) is fundamental and mandatory. ALWAYS USE HTTPS!
@@ -334,7 +339,7 @@ Start by taking care of your application's security from the beginning of develo
 
 ### 8 - Create configuration files for each environment
 
-Create configuration files (with database configs, external API addresses, security keys)  for each environment (development, test, production). And load specific file according to each environment in an automated way. Here's an example:
+Create configuration files (with database configs, external API addresses, security keys) for each environment (development, test, production). And load specific file according to each environment in an automated way. Here's an example:
 
 Index.js file, which loads the settings according to the environment.
 
@@ -363,7 +368,7 @@ You can also use `.env` files for each environment instead of `js` files.
 
 [Continuous Integration (CI)](https://aws.amazon.com/en/devops/continuous-integration) is a software development practice where developers regularly merge their code changes into a central repository and run automated tests.
 
-[Continuous Delivery  (CD)](https://www.atlassian.com/br/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment) is an extension of continuous integration, that it automatically deploys the application to a staging environment after running the build process and running all automated tests successfully.
+[Continuous Delivery (CD)](https://www.atlassian.com/br/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment) is an extension of continuous integration, that it automatically deploys the application to a staging environment after running the build process and running all automated tests successfully.
 
 It is important to highlight that for the use of Integration and Continuous Delivery it is essential that your application uses automated tests, mainly integration tests.
 
@@ -396,7 +401,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [21.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -424,7 +429,7 @@ jobs:
 The above file is configured to execute the following steps in sequence whenever there is a `push` or `pull request` on the `main` branch of the project:
 
 1. Use an Ubuntu machine;
-1. Install Node.js 14.x;
+1. Install Node.js 21.x;
 1. Install and configure a Postgres database instance;
 1. Build the project;
 1. Run the tests;
@@ -436,7 +441,7 @@ The above file is configured to execute the following steps in sequence whenever
 
 The complete code used in this post is available at [GitHub repository](https://github.com/jesielviana/nodejs-express-sequelize).
 
-> Did you like the tips? Which of these best practices did you already know? What are the best practices you use and recommend? 
+> Did you like the tips? Which of these best practices did you already know? What are the best practices you use and recommend?
 
 **Others best practices references**
 

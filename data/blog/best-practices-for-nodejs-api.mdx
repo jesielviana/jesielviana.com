@@ -24,9 +24,13 @@ O conjunto de boas práticas que descrevo abaixo é resultado da minha experiên
 Baseada no [Princípio da Separação de Conceitos](https://www.cs.utexas.edu/users/EWD/transcriptions/EWD04xx/EWD447.html), organize a aplicação em três camadas: API routes, Services e Models, conforme a figura abaixo.
 
 <div class="flex justify-center">
-<Image alt="Arquitetura em camada Node.js" src="/static/images/posts/nodejs-layers.png" width={299} height={331} />
+  <Image
+    alt="Arquitetura em camada Node.js"
+    src="/static/images/posts/nodejs-layers.png"
+    width={299}
+    height={331}
+  />
 </div>
-
 
 - `API routes` - camada responsável pela definição dos _endpoints_ da _API_ e tratamento das requisições e respostas da aplicação.
 - `Services` - camada responsável pelas regras de negócios e por fazer a integração entre a camada de dados e a camada de API/Rotas.
@@ -259,11 +263,12 @@ O protocolo HTTP possui um conjunto de códigos de status de respostas que indic
 
 Uma vez ou outra nos deparamos resposta de APIs que retorna o status code 200 (que indica sucesso na requisição) e no corpo da resposta vem um uma mensagem de erro ou uma flag (true ou false) indicando que ocorreu algum erro...resumindo: Parece sucesso, mas é erro.
 
-Para evitar confusões e más práticas retornando códigos de status do HTTP que não condiz com a realidade da requisição, é bom conhecermos os principais códigos, seus significados e quando e como devemos usá-los. 
+Para evitar confusões e más práticas retornando códigos de status do HTTP que não condiz com a realidade da requisição, é bom conhecermos os principais códigos, seus significados e quando e como devemos usá-los.
 
 ### 6 - Crie testes de integração para suas rotas de API
 
 Teste automatizado é fundamental para garantir a confiabilidade do software. Os testes automatizados são organizados em três categorias:
+
 - Teste unitário - testa cada função/método isoladamente, faz muito uso de mocks para isolar o teste;
 - Teste de integração - testa a funcionalidade como um todo. Não usa mocks;
 - Teste end-to-end - testa a aplicação como se fosse o usuário final, através da interface. É um teste caro e lento.
@@ -385,7 +390,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [21.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -413,7 +418,7 @@ jobs:
 O arquivo acima está configurado para executar os seguintes passos em sequência sempre que houver um `push` ou `pull request` no branch `main` do projeto:
 
 1. Usa uma máquina com Ubuntu;
-1. Instala o Node.js 14.x;
+1. Instala o Node.js 21.x;
 1. Instala e configura uma instância do banco de dados Postgres;
 1. Gera a build o projeto;
 1. Executa os testes;
